@@ -1,4 +1,4 @@
-# Tugas 1 IF3110 Pengembangan Aplikasi Berbasis Web
+# Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web
 
 ## System requirement
 
@@ -58,9 +58,35 @@ sudo /Applications/XAMPP/xamppfiles/xampp start
 
 ## Pembagian Tugas
 
+### REST
 | No | Tugas         | NIM      |
 | ---|---------------|---------:|
-| 1  |       | 13517xxx |
-| 2  |       | 13517xxx |
-| 3  |       | 13517xxx |
+| 1  | TheMovieDB | 13517012 |
+| 2  | Transaksi Fungsi tambah transaksi | 13517012 |
+| 3  | Transaksi Fungsi mengubah status transaksi | 13517xxx |
+| 4  | Transaksi Fungsi mengambil data transaksi user | 13517xxx |
 
+### SOAP
+| No | Tugas         | NIM      |
+| ---|---------------|---------:|
+| 1  | Bank Fungsi validasi nomor rekening | 13517xxx |
+| 2  | Bank Fungsi mengambil data rekening nasabah | 13517xxx |
+| 3  | Bank Fungsi melakukan transfer | 13517xxx |
+| 4  | Bank Fungsi membuat akun virtual | 13517xxx |
+| 5  | Bank Fungsi mengecek keberadaan suatu transaksi kredit | 13517xxx |
+
+### React.js
+| No | Tugas         | NIM      |
+| ---|---------------|---------:|
+| 1  | Login | 13517xxx |
+| 2  | Halaman utama | 13517xxx |
+| 3  | Halaman transfer | 13517xxx |
+| 4  | Halaman riwayat transaksi | 13517xxx |
+
+### Perubahan Engima
+| No | Tugas         | NIM      |
+| ---|---------------|---------:|
+| 1  | Halaman Transaction History | 13517xxx |
+| 2  | Halaman Film Details | 13517xxx |
+| 3  | Halaman Buy | 13517xxx |
+| 4  | Halaman Home | 13517xxx |
