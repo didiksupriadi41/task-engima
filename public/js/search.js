@@ -7,24 +7,28 @@ var pageCount = document.getElementById("page-count").value
 var keyword = document.getElementById("keyword").value
 var btnWrapper = document.getElementById("pagination")
 
+var loc = window.location.pathname;
+loc = loc.split("/");
+var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
+
 function formatMovieHtml(result, index) {
     return `
         <div class="row">
             <div class="col-2">
-                <img src="${'/tugas-besar-1-2019/public/' + result[index].poster}" width="110" height="150" class="search-poster">
+                <img src="${dir + '/' + result[index].poster}" width="110" height="150" class="search-poster">
             </div>
             <div class="col-7 search-detail px-auto">
                 <div class="search-title">
                     ${result[index].title}
                 </div>
                 <div class="search-rating">
-                    <img src="${'/tugas-besar-1-2019/public/img/star.png'}" width="10" height="10"> ${result[index].rating}
+                    <img src="${dir + '/img/star.png'}" width="10" height="10"> ${result[index].rating}
                 </div>
                 <p>${result[index].description}</p>
             </div>
             <div class="search-view">
-                <a href="${'/tugas-besar-1-2019/public/movie/detail?id=' + result[index].idMovie}">
-                    View details <img src="${'/tugas-besar-1-2019/public/img/chevron.png'}" width="15" height="15">
+                <a href="${dir + '/movie/detail?id=' + result[index].idMovie}">
+                    View details <img src="${dir + '/img/chevron.png'}" width="15" height="15">
                 </a>
             </div>
         </div>`
@@ -79,7 +83,7 @@ function ajax(page, parent) {
             addMovie(page, parent, xhr);
         }
     }
-    xhr.open('GET', '/tugas-besar-1-2019/public/api/search?q=' + keyword + '&page=' + page);
+    xhr.open('GET', dir + '/api/search?q=' + keyword + '&page=' + page);
     xhr.send();
 }
 

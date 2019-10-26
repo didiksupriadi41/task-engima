@@ -21,6 +21,10 @@ var validUsername = true;
 var validEmail = true;
 var validPhone = true;
 
+var loc = window.location.pathname;
+loc = loc.split("/");
+var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
+
 
 function errorMessage(message, parent) {
     var node = document.createElement('div');
@@ -100,11 +104,13 @@ function ajax(type, value, field, parent) {
             }
         }
     }
-    xhr.open('GET', 'http://localhost/tugas-besar-1-2019/public/api/validate?type=' + type + '&value=' + value);
+
+    xhr.open('GET', dir + '/api/validate?type=' + type + '&value=' + value);
     xhr.send();
 }
 
 username.addEventListener('change', function () {
+
     valid = true;
     this.style.border = '';
     if (usernameWrapper.lastChild.className == 'error-message') {
