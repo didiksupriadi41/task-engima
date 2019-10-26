@@ -38,11 +38,8 @@
                 </div>
             </div>
             <input type="text" hidden id="input-seat-number" name="seat-number">
-            <input type="text" hidden id="input-schedule-id" name="schedule-id" 
-                value=<?php echo $data["schedule"]["idSchedule"] ?>
-            >
-            <input type="text" hidden id="input-movie-id" name="movie-id" 
-                value=<?php echo $data["schedule"]["idMovie"] ?>
+            <input type="text" hidden id="input-user-id" name="user-id" 
+                value=<?php echo $data["idUser"]?>
             >
             <div class="booking-summary">
                 <div class="booking-title">

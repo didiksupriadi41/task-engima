@@ -2,16 +2,18 @@ var movie_title = document.getElementById("movie-title-id");
 var movie_time = document.getElementById("movie-time-id");
 var chairs = document.getElementsByClassName("chair");
 var summary_wrapper = document.getElementById("summary-wrapper-id");
-var input_seat_number = document.getElementById("input-seat-number");
-var input_schedule_id = document.getElementById("input-schedule-id");
-var input_movie_id = document.getElementById("input-movie-id");
+var input_user_id = document.getElementById("input-user-id");
 var back_btn = document.getElementById("back-btn-id");
 var buy_modal_wrapper = document.getElementById("buy-modal-wrapper-id");
 var content = document.getElementsByClassName("content");
 var buy_container = content[0].getElementsByClassName("container");
 var chair_layout = document.getElementsByClassName("chair");
 var time_out = 3000;
+var loc = window.location.pathname;
+loc = loc.split("/");
+var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 
+var urlParams = new URLSearchParams(window.location.search);
 
 function wrapper(number) {
     var title = movie_title.innerText;
@@ -40,13 +42,13 @@ function wrapper(number) {
     </div>`;
 }
 
-
 for (var i = 0; i < chairs.length; i++) {
     chairs[i].addEventListener("click", function () {
         var temp = this.textContent
-        input_seat_number.value = temp;
+        // input_seat_number.value = temp;
         summary_wrapper.innerHTML = wrapper(temp);
         var buy_btn = document.getElementById("buy-ticket-id");
+
         buy_btn.addEventListener("click", function () {
             var xhr = new XMLHttpRequest();
 
@@ -67,8 +69,11 @@ for (var i = 0; i < chairs.length; i++) {
                     }
                 }
             }
-            var param = `schedule-id=${input_schedule_id.value}&seat-number=${temp}`;
-            xhr.open('POST', 'http://localhost/tugas-besar-1-2019/public/api/book', true);
+            var param = `schedule-id=${urlParams.get("schedule-id")}&seat-number=${temp}`;
+
+            xhr.open('POST', dir + "/api/book", true);
+            // var urlTransaksi = `http://127.0.0.1:3000/transaksi?idUser=${input_user_id.value}&virtualAccount=0&idMovie=${urlParams.get("movie-id")}&idSchedule=${urlParams.get("schedule-id")}&seat=${temp}`;
+            // xhr.open('GET', urlTransaksi, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(param);
 
@@ -77,7 +82,7 @@ for (var i = 0; i < chairs.length; i++) {
 }
 
 back_btn.addEventListener("click", function () {
-    window.location.replace(`detail?id=${input_movie_id.value}`);
+    window.location.replace(`detail?id=${urlParams.get("movie-id")}`);
 })
 
 window.onclick = function (event) {
@@ -101,8 +106,9 @@ function fetchchair() {
             }
         }
     }
-    var param = `schedule-id=${input_schedule_id.value}`;
-    var url = 'http://localhost/tugas-besar-1-2019/public/api/chairCheck?' + param
+    var param = `schedule-id=${urlParams.get("schedule-id")} `;
+
+    var url = dir + '/api/chairCheck?' + param
     xhr.open('GET', url, true);
     xhr.send();
 }

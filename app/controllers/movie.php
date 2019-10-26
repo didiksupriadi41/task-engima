@@ -50,9 +50,11 @@ class Movie extends \core\Controller
                 foreach ($booked_seat as $seat) {
                     array_push($disabled_seat, $seat["seat"]);
                 }
+                $idUser = $this->auth->getUserId();
                 $data["schedule"] = $schedule;
                 $data["disabled_seat"] = $disabled_seat;
                 $data['title'] = 'Buy ' . $schedule["title"] . ' Ticket / Engima';
+                $data['idUser'] = $idUser;
                 $data['js'] = 'js/buy.js';
                 $this->view('partial/header', $data);
                 $this->view('buy/index', $data);
