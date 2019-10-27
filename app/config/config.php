@@ -8,3 +8,6 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'tubes2-wbd');
+
+// TheMovieDB
+define('API_KEY', getenv('API_KEY'));
