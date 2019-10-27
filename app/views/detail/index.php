@@ -3,35 +3,43 @@
         <div class="detail-wrapper">
             <div class="row">
                 <div class="col-2">
-                    <img src=<?php echo BASEURL . $data["movie"][0]["poster"] ?> 
+                    <img src=<?php echo $data["movie"]["poster"] ?> 
                         class="detail-poster"
                     >
                 </div>
                 <div class="col-8 detail-detail px-auto">
                     <div class="detail-title">
-                        <?php echo $data["movie"][0]["title"] ?>
+                        <?php echo $data["movie"]["title"] ?>
                     </div>
                         <div class="detail-stats">
                             <?php $categories = array();
-                            foreach ($data["category"] as $movie) {
-                                $categories[] = $movie["category"];
+                            foreach ($data["movie"]["category"] as $category) {
+                                $categories[] = $category["name"];
                             }
                                 echo implode(", ", $categories);
-                            ?> | <?php echo $data["movie"][0]["duration"] ?> mins
+                            ?> | <?php echo $data["movie"]["duration"] ?> mins
                         </div>
                         <div class="detail-date">
                             Release date: 
-                            <?php $date = date_create($data["movie"][0]["release"]);
+                            <?php $date = date_create($data["movie"]["release"]);
                                 echo date_format($date, "d F, Y")?>
                         </div>
-                        <div class="detail-rating">
-                            <img src=<?php echo BASEURL . "img/star.png" ?> 
+                        <div class="row double-rating">
+                            <div class="detail-rating">
+                                <img src=<?php echo BASEURL . "img/star.png" ?> 
                                 width="20" height="20">
-                            <span><?php echo $data["movie"][0]["rating"] ?></span> 
-                            /10
+                                <span><?php echo $data["movie"]["rating"] ?></span> 
+                                /10 (TheMovieDB)
+                            </div>
+                            <div class="detail-rating">
+                                <img src=<?php echo BASEURL . "img/star.png" ?> 
+                                width="20" height="20">
+                                <span><?php echo $data["movie"]["rating"] ?></span> 
+                                /10 (User Rating)
+                            </div>
                         </div>
                         <div class="detail-desc">
-                            <p><?php echo $data["movie"][0]["description"] ?></p>
+                            <p><?php echo $data["movie"]["description"] ?></p>
                         </div>
                     </div>
                 </div>
