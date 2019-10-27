@@ -14,21 +14,24 @@
             for ($j=0; $j<$rowCount; $j++) {
                 echo '<div class="row row-movie">';
                 for ($k=0; $k<5 && $i<$count; $k++) {
+                    $poster = ($data["movie"][$i]["poster"] == null) ?
+                    '<i class="no_image_holder"></i>' :
+                    '<img class="home-poster" src="'
+                    . $data["movie"][$i]["poster"]
+                    .'">';
                     echo '
                         <div class="col-2">
-                            <a href="' . BASEURL . 'movie/detail?id=' .
+                            <a class="movie-link" href="' . BASEURL . 'movie/detail?id=' .
                                 $data["movie"][$i]["idMovie"] . '">
                                 <div class="movie-home-wrapper">
-                                    <div class="home-poster-wrapper">
-                                        <img class="home-poster" src="'
-                                        . BASEURL . $data["movie"][$i]["poster"]
-                                        .'">
-                                    </div>
+                                    <div class="home-poster-wrapper">'
+                                        . $poster
+                                    . '</div>
                                     <div class="home-movie-title">'.
                                 $data["movie"][$i]["title"] .'</div>
                                     <div class="home-rating-wrapper">
-                                        <img src="' . BASEURL .
-                                            'img/star.png" width="20" height="20">
+                                        <img class="home-star" src="' . BASEURL .
+                                            'img/star.png">
                                         <span class="home-rating">'.
                                             $data["movie"][$i]["rating"] .
                                         '</span>

@@ -13,7 +13,7 @@ class Home extends \core\Controller
     {
         $this->auth->checkAuthenticated();
         $movie = $this->model('MovieModel')->getPlayingMovie();
-
+        
         $data['title'] = 'Home / Engima';
         $data['username'] = $this->model('HomeModel')->getUsername();
         $data['movie'] = $movie;
