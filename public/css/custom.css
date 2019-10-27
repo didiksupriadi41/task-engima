@@ -238,11 +238,6 @@ body {
   color: red;
 }
 
-.main-title {
-  margin: 0;
-  font-size: 22px;
-}
-
 .content {
   background-color: #262626;
   padding-top: 3rem;
@@ -826,8 +821,10 @@ body {
   font-weight: bold;
 }
 
+
 .detail-rating {
   padding-top: 0.2rem;
+  padding-left: 0.8em;
   font-size: 16px;
   color: #9b8d8d;
   font-weight: bold;
@@ -1097,12 +1094,13 @@ body {
 .movie-home-wrapper {
   display: inline-block !important;
   text-decoration: none !important;
+  width: 100%;
 }
 
 .main-title {
   margin-top: 36px;
   margin-bottom: 14px; 
-  font-size: 28px;
+  font-size: 1.87em;
   font-weight: bold;
 }
 
@@ -1118,6 +1116,30 @@ body {
   padding-top: 16px;
 }
 
+.movie-link {
+  text-decoration: none;
+  color: #b5b5b5;
+}
+
+.no_image_holder:before {
+  content: "\f1c5";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+.no_image_holder {
+  align-items: center;;
+  background-color: #dbdbdb;
+  border-radius: 10px;
+  display: flex;
+  font-size: 8vw;
+  justify-content: center;
+  height: 100%;
+  width: 100%; 
+}
+
 .home-poster {
   border-radius: 10px;
   width: 100%;
@@ -1128,21 +1150,27 @@ body {
 
 .home-poster-wrapper {
   padding-right: 0;
-  height: 220px;
+  height: 17.78vw;
   padding-bottom: 12px;
 }
 
 .home-movie-title {
   font-weight: bold;
+  font-size: 1.16vw;
   text-decoration: none !important;
   color: black;
 }
 
 .home-rating {
-  font-size: 16px;
+  font-size: 1.2vw;
   padding-left: 4px;
   color: #666 !important;
   padding-bottom: 2px;
+}
+
+.home-star{
+  width: 1.6vw;
+  height: 1.6vw;
 }
 
 @media only screen and (max-width: 800px) {
