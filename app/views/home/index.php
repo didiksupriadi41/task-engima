@@ -6,7 +6,7 @@
         <h2 class="sub-title">Now Playing</h2>
 
 
-        <div class="main-movie-wrapper">
+        <div class="main-movie-wrapper" id="main-movie-wrapper-id">
             <?php
                 $count = count($data['movie']);
                 $rowCount = ceil($count/5);
@@ -44,6 +44,34 @@
                 echo '</div>';
             }
             ?>
+            </div>
+            <input 
+                id="input-page" 
+                type="text" 
+                value="<?php echo $data["page"]?>" 
+                hidden
+            />
+            <input 
+                id="page-count" 
+                type="text" 
+                value="<?php echo $data["pageCount"]?>" 
+                hidden
+            />
+            <div id="pagination">
+                <button id="btn-prev">Back</button>
+                <div id="btn-page-wrapper">
+                    <?php
+                        $pagination = 5;
+                    if ($pagination > (int) $data["pageCount"]) {
+                        $pagination = (int) $data["pageCount"];
+                    }
+                    for ($i = 0; $i < $pagination; $i++) { ?>
+                            <button class="btn-page"><?php echo $i+1?></button>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <button id="btn-next">Next</button>
             </div>
         </div>
     </div>

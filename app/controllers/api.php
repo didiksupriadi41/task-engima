@@ -66,4 +66,16 @@ class Api extends \core\Controller
         $response = json_encode($data);
         echo $response;
     }
+
+    public function home()
+    {
+        $page = 1;
+        if (array_key_exists("page", $_GET)) {
+            $page = $_GET['page'];
+        }
+
+        $arrMovie = $this->model('MovieModel')->getPlayingMovie($page);
+
+        echo json_encode($arrMovie[0]);
+    }
 }

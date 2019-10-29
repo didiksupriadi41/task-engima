@@ -48,17 +48,17 @@ class MovieModel
         }
     }
 
-    public function getPlayingMovie()
+    public function getPlayingMovie($page)
     {
         date_default_timezone_set('Asia/Jakarta');
-        $timeNow = date('Y-m-d');
-        $timeLater = date("Y-m-d", strtotime("+7 day"));
+        $timeNow = date('Y-m-d', strtotime("-7 day"));
+        $timeLater = date('Y-m-d');
 
         $curl = curl_init();
         $url = "https://api.themoviedb.org/3/discover/movie?primary_release_date.lte="
             . "$timeLater&primary_release_date.gte="
-            . "$timeNow&page=1&include_video=false&include_adult=false&sort_by=popularity.desc"
-            . "&language=id-ID&region=ID&api_key=".API_KEY;
+            . "$timeNow&page=$page&include_video=false&include_adult=false&sort_by=popularity.desc"
+            . "&language=en-US&region=US&vote_count.gte=1&api_key=".API_KEY;
             
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -82,6 +82,7 @@ class MovieModel
         } else {
             $results = $response["results"];
             $return = [];
+            $movies = [];
             foreach ($results as $movie) {
                 if (is_null($movie["poster_path"])) {
                     $poster_url = null;
@@ -94,8 +95,10 @@ class MovieModel
                     "rating" => $movie["vote_average"],
                     "poster" => $poster_url,
                 ];
-                $return[] = $detail;
+                $movies[] = $detail;
             }
+            $return[] = $movies;
+            $return[] = $response["total_pages"];
             return $return;
         }
     }
