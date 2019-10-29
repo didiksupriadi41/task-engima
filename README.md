@@ -87,6 +87,6 @@ sudo /Applications/XAMPP/xamppfiles/xampp start
 | No | Tugas         | NIM      |
 | ---|---------------|---------:|
 | 1  | Halaman Transaction History | 13517126 |
-| 2  | Halaman Film Details | 13517026 |
+| 2  | Halaman Film Details | 13517069 |
 | 3  | Halaman Buy | 13517012 |
 | 4  | Halaman Home | 13517012 |
