@@ -63,30 +63,30 @@ sudo /Applications/XAMPP/xamppfiles/xampp start
 | ---|---------------|---------:|
 | 1  | TheMovieDB | 13517012 |
 | 2  | Transaksi Fungsi tambah transaksi | 13517012 |
-| 3  | Transaksi Fungsi mengubah status transaksi | 13517xxx |
-| 4  | Transaksi Fungsi mengambil data transaksi user | 13517xxx |
+| 3  | Transaksi Fungsi mengubah status transaksi | 13517126 |
+| 4  | Transaksi Fungsi mengambil data transaksi user | 13517069 |
 
 ### SOAP
 | No | Tugas         | NIM      |
 | ---|---------------|---------:|
-| 1  | Bank Fungsi validasi nomor rekening | 13517xxx |
-| 2  | Bank Fungsi mengambil data rekening nasabah | 13517xxx |
-| 3  | Bank Fungsi melakukan transfer | 13517xxx |
-| 4  | Bank Fungsi membuat akun virtual | 13517xxx |
-| 5  | Bank Fungsi mengecek keberadaan suatu transaksi kredit | 13517xxx |
+| 1  | Bank Fungsi validasi nomor rekening | 13517012 |
+| 2  | Bank Fungsi mengambil data rekening nasabah | 13517069 |
+| 3  | Bank Fungsi melakukan transfer | 13517069 |
+| 4  | Bank Fungsi membuat akun virtual | 13517126 |
+| 5  | Bank Fungsi mengecek keberadaan suatu transaksi kredit | 13517069 |
 
 ### React.js
 | No | Tugas         | NIM      |
 | ---|---------------|---------:|
-| 1  | Login | 13517xxx |
-| 2  | Halaman utama | 13517xxx |
-| 3  | Halaman transfer | 13517xxx |
-| 4  | Halaman riwayat transaksi | 13517xxx |
+| 1  | Login | 13517126 |
+| 2  | Halaman utama | 13517012 |
+| 3  | Halaman transfer | 13517069 |
+| 4  | Halaman riwayat transaksi | 13517126 |
 
 ### Perubahan Engima
 | No | Tugas         | NIM      |
 | ---|---------------|---------:|
-| 1  | Halaman Transaction History | 13517xxx |
-| 2  | Halaman Film Details | 13517xxx |
-| 3  | Halaman Buy | 13517xxx |
-| 4  | Halaman Home | 13517xxx |
+| 1  | Halaman Transaction History | 13517126 |
+| 2  | Halaman Film Details | 13517026 |
+| 3  | Halaman Buy | 13517012 |
+| 4  | Halaman Home | 13517012 |
