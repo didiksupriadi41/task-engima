@@ -18,9 +18,10 @@ class Movie extends \core\Controller
 
         $id = $_GET["id"];
         $movie = $this->model('MovieModel')->getSingleMovie($id);
-        $category = $this->model('MovieModel')->getMovieCategory($id);
+        $rating = $this->model('RatingModel')->getRatingByIdMovie($id);
+        $movie["ratingUSER"] = $rating;
         // $schedule = $this->model('MovieModel')->getMovieSchedule($id);
-        // $review = $this->model('MovieModel')->getMovieReview($id);
+        $review = $this->model('MovieModel')->getMovieReview($id);
         $this->data = [
             "title" => "Film Detail / Engima",
             "movie" => $movie,

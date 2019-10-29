@@ -28,13 +28,13 @@
                             <div class="detail-rating">
                                 <img src=<?php echo BASEURL . "img/star.png" ?> 
                                 width="20" height="20">
-                                <span><?php echo $data["movie"]["rating"] ?></span> 
+                                <span><?php echo $data["movie"]["ratingDB"] ?></span> 
                                 /10 (TheMovieDB)
                             </div>
                             <div class="detail-rating">
                                 <img src=<?php echo BASEURL . "img/star.png" ?> 
                                 width="20" height="20">
-                                <span><?php echo $data["movie"]["rating"] ?></span> 
+                                <span><?php echo $data["movie"]["ratingUSER"] ?></span> 
                                 /10 (User Rating)
                             </div>
                         </div>

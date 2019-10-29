@@ -40,8 +40,9 @@ class MovieModel
                 "description" => $response["overview"],
                 "duration" => $response["runtime"],
                 "release" => $response["release_date"],
-                "rating" => $response["vote_average"],
-                "poster" => "https://image.tmdb.org/t/p/original" . $response["poster_path"],
+                "ratingDB" => $response["vote_average"],
+                "ratingUSER" => 0,
+                "poster" => "https://image.tmdb.org/t/p/w600_and_h900_bestv2" . $response["poster_path"],
                 "category" => $response["genres"],
             ];
             return $movie;
@@ -87,7 +88,7 @@ class MovieModel
                 if (is_null($movie["poster_path"])) {
                     $poster_url = null;
                 } else {
-                    $poster_url = "https://image.tmdb.org/t/p/original" . $movie["poster_path"];
+                    $poster_url = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" . $movie["poster_path"];
                 }
                 $detail = [
                     "idMovie" => $movie["id"],
@@ -103,17 +104,17 @@ class MovieModel
         }
     }
 
-    public function getMovieCategory($idMovie)
-    {
-        $query = "SELECT * 
-        FROM (Movie NATURAL JOIN MovieCategory) NATURAL JOIN Category 
-        WHERE Movie.idMovie = :id";
-        $this->db->query($query);
-        $this->db->bind("id", $idMovie);
-        $data = $this->db->resultSet();
+    // public function getMovieCategory($idMovie)
+    // {
+    //     $query = "SELECT * 
+    //     FROM (Movie NATURAL JOIN MovieCategory) NATURAL JOIN Category 
+    //     WHERE Movie.idMovie = :id";
+    //     $this->db->query($query);
+    //     $this->db->bind("id", $idMovie);
+    //     $data = $this->db->resultSet();
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
     public function getMovieSchedule($idMovie)
     {
@@ -131,8 +132,8 @@ class MovieModel
     public function getMovieReview($idMovie)
     {
         $queryReview = "SELECT * 
-        FROM Movie NATURAL JOIN ((Review NATURAL JOIN Book) NATURAL JOIN User) 
-        WHERE Movie.idMovie = :id";
+        FROM (Review NATURAL JOIN Book) NATURAL JOIN User 
+        WHERE idMovie = :id";
         $this->db->query($queryReview);
         $this->db->bind("id", $idMovie);
         $data = $this->db->resultSet();

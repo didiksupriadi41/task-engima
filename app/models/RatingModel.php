@@ -24,6 +24,18 @@ class RatingModel
         return $data[0];
     }
 
+    public function getRatingByIdMovie($idMovie)
+    {
+        
+        $query = "SELECT avg(value) as rating FROM Review WHERE idMovie = :idMovie GROUP BY idMovie";
+
+        $this->db->query($query);
+        $this->db->bind('idMovie', $idMovie);
+
+        $data = $this->db->resultSet();
+        return is_null($data[0]) ? 0 : round($data[0]["rating"], 2);
+    }
+
     public function insert()
     {
         $idBook = $_GET["book-id"];
