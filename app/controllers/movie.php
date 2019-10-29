@@ -24,9 +24,8 @@ class Movie extends \core\Controller
         $this->data = [
             "title" => "Film Detail / Engima",
             "movie" => $movie,
-            // "category" => $category,
             // "schedule" => $schedule,
-            // "review" => $review
+            "review" => $review,
         ];
 
         $this->view('partial/header', $this->data);
@@ -70,9 +69,9 @@ class Movie extends \core\Controller
 
         $keyword = $_GET['q'];
         $page = 1;
-        if (array_key_exists("page", $_GET)) {
-            $page = $_GET['page'];
-        }
+        // if (array_key_exists("page", $_GET)) {
+        //     $page = $_GET['page'];
+        // }
         $movie_limit = 3;
         $movie = $this->model('MovieModel')->searchMovie($keyword, $page);
         $count = $this->model('MovieModel')->countSearchMovie($keyword);
