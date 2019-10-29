@@ -12,7 +12,7 @@ date_default_timezone_set("Asia/Bangkok");
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo BASEURL; ?>/css/custom.css"
+        href="<?php echo BASEURL; ?>css/custom.css"
     >
     <link 
 href="https://fonts.googleapis.com/css?family=Raleway:400,700,800,900&display=swap" 
