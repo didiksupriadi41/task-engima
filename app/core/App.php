@@ -10,21 +10,21 @@ class App
     public function __construct()
     {
         $url = $this->parseURL();
-        
+
         // controller
-        if (file_exists('../app/controllers/' . $url[0] . '.php')) {
-            $this->controller = '\controllers\\'.$url[0];
-            $this->controllerName = $url[0];
-            unset($url[0]);
+        if (file_exists('../app/controllers/' . $url["controller"] . '.php')) {
+            $this->controller = '\controllers\\'.$url["controller"];
+            $this->controllerName = $url["controller"];
+            unset($url["controller"]);
         }
         include_once '../app/controllers/' . $this->controllerName . '.php';
         $this->controller = new $this->controller;
         
         // method
-        if (isset($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
-                unset($url[1]);
+        if (isset($url["method"])) {
+            if (method_exists($this->controller, $url["method"])) {
+                $this->method = $url["method"];
+                unset($url["method"]);
             }
         }
         // params
@@ -38,11 +38,24 @@ class App
 
     public function parseURL()
     {
-        if (isset($_GET['url'])) {
-            $url = rtrim($_GET['url'], '/');
+        $uri = $_SERVER['REQUEST_URI'];
+        if (isset($uri)) {
+            $url = rtrim($uri, '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
-            return $url;
+            $last = array_search("public", $url);
+            if (array_key_exists($last+1, $url)) {
+                $parse["controller"] = $url[$last+1];
+            } else {
+                $parse["controller"] = null;
+            }
+            if (array_key_exists($last+2, $url)) {
+                $parse["method"] = explode("?", $url[$last+2])[0];
+            } else {
+                $parse["method"] = null;
+            }
+            error_log("new method: ". print_r($url, true) . print_r($parse, true));
+            return $parse;
         }
     }
 }
