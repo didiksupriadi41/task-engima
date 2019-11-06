@@ -90,3 +90,4 @@ sudo /Applications/XAMPP/xamppfiles/xampp start
 | 2  | Halaman Film Details | 13517069 |
 | 3  | Halaman Buy | 13517012 |
 | 4  | Halaman Home | 13517012 |
+| 5  | Halaman Search | 13517012 |
