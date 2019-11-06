@@ -16,9 +16,9 @@ class Home extends \core\Controller
         $data = [
             "title" => 'Home / Engima',
             "username" => $this->model('HomeModel')->getUsername(),
-            "movie" => $movie[0],
+            "movie" => $movie["movies"],
             "page" => 1,
-            "pageCount" => $movie[1],
+            "pageCount" => $movie["pageCount"],
             "js" => "js/home.js",
         ];
         $this->view('partial/header', $data);

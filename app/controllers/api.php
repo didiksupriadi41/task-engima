@@ -35,7 +35,7 @@ class Api extends \core\Controller
         }
         $arrMovie = $this->model('MovieModel')->searchMovie($keyword, $page);
 
-        echo json_encode($arrMovie);
+        echo json_encode($arrMovie["movies"]);
     }
 
     public function chairCheck()
@@ -76,6 +76,6 @@ class Api extends \core\Controller
 
         $arrMovie = $this->model('MovieModel')->getPlayingMovie($page);
 
-        echo json_encode($arrMovie[0]);
+        echo json_encode($arrMovie["movies"]);
     }
 }
