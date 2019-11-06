@@ -3,9 +3,16 @@
         <div class="detail-wrapper">
             <div class="row">
                 <div class="col-2">
-                    <img src=<?php echo $data["movie"]["poster"] ?> 
+                    <?php
+                        echo ($data["movie"]["poster"] == null) ?
+                        '<i class="no_image_holder_detail"></i>' :
+                        '<img class="detail-poster" src="'
+                        . $data["movie"]["poster"]
+                        .'">';
+                    ?>
+                    <!-- <img src=<?php echo $data["movie"]["poster"] ?> 
                         class="detail-poster"
-                    >
+                    > -->
                 </div>
                 <div class="col-8 detail-detail px-auto">
                     <div class="detail-title">

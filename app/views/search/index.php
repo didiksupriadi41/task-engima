@@ -1,19 +1,26 @@
 <div class="content">
     <div class="container">
-        <h3 class="search-result">Showing search result for keyword "
-            <?php echo $data["keyword"]?>"
+        <h3 class="search-result">Showing search result for keyword "<?php
+            echo $data["keyword"]?>"
         </h3>
         <h4 class="search-count"><?php echo $data["count"]?> results available</h4>
         <div class="search-wrapper" id="search-wrapper-id">
-            <?php foreach ($data["movie"] as $movie) { ?>
+            <?php foreach ($data["movie"] as $movie) {
+                $poster = ($movie["poster"] == null) ?
+                    '<i class="no_image_holder_search"></i>' :
+                    '<img class="search-poster" src="'
+                    . $movie["poster"]
+                    .'" >';
+                ?>
                 <div class="row">
                     <div class="col-2">
-                        <img 
-                            src=<?php echo BASEURL . $movie["poster"]?> 
+                        <!-- <img 
+                            src=<?php echo $poster?> 
                             width="110" 
                             height="150" 
                             class="search-poster"
-                        >
+                        > -->
+                        <?php echo $poster?>
                     </div>
                     <div class="col-7 search-detail px-auto">
                         <div class="search-title"><?php echo $movie["title"]?></div>

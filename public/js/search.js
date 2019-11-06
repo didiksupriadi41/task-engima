@@ -15,7 +15,7 @@ function formatMovieHtml(result, index) {
     return `
         <div class="row">
             <div class="col-2">
-                <img src="${dir + '/' + result[index].poster}" width="110" height="150" class="search-poster">
+                ${poster}
             </div>
             <div class="col-7 search-detail px-auto">
                 <div class="search-title">

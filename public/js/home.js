@@ -16,18 +16,7 @@ function formatMovieHtml(result, index) {
         `<img class="home-poster" src="${result[index].poster}">`;
     return `
         <div class="col-2">
-            <a class="mov
-            // error_log("GET: ". print_r($_GET, true));
-            // if (isset($_GET['url'])) {
-            //     // error_log(print_r($_GET['url']));
-            //     $url = rtrim($_GET['url'], '/');
-            //     error_log("rtrim: ". print_r($url, true));
-            //     $url = filter_var($url, FILTER_SANITIZE_URL);
-            //     error_log("filter_var: ". print_r($url, true));
-            //     $url = explode('/', $url);
-            //     error_log("explode: ". print_r($url, true));
-            //     return $url;
-            // }ie-link" href="${dir}/movie/detail?id=${result[index].idMovie}">
+            <a class="movie-link" href="${dir}/movie/detail?id=${result[index].idMovie}">
                 <div class="movie-home-wrapper">
                     <div class="home-poster-wrapper">
                         ${poster}
