@@ -17,21 +17,29 @@ class Movie extends \core\Controller
         $this->auth->checkAuthenticated();
 
         $id = $_GET["id"];
+        // error_log("start");
         $movie = $this->model('MovieModel')->getSingleMovie($id);
+        // error_log("fin");
         $rating = $this->model('RatingModel')->getRatingByIdMovie($id);
-        $movie["ratingUSER"] = $rating;
         // $schedule = $this->model('MovieModel')->getMovieSchedule($id);
+        $schedule = [];
         $review = $this->model('MovieModel')->getMovieReview($id);
-        $this->data = [
-            "title" => "Film Detail / Engima",
-            "movie" => $movie,
-            // "schedule" => $schedule,
-            "review" => $review,
-        ];
 
-        $this->view('partial/header', $this->data);
-        $this->view('detail/index', $this->data);
-        $this->view('partial/footer');
+        if (empty($movie)) {
+            $this->redirect->to(BASEURL);
+        } else {
+            $movie["ratingUSER"] = $rating;
+            $this->data = [
+                "title" => "Film Detail / Engima",
+            "movie" => $movie,
+            "schedule" => $schedule,
+            "review" => $review,
+            ];
+            
+            $this->view('partial/header', $this->data);
+            $this->view('detail/index', $this->data);
+            $this->view('partial/footer');
+        }
     }
 
     public function buy()
@@ -67,27 +75,26 @@ class Movie extends \core\Controller
     public function search()
     {
         $this->auth->checkAuthenticated();
-
         $keyword = $_GET['q'];
         $page = 1;
         // if (array_key_exists("page", $_GET)) {
         //     $page = $_GET['page'];
         // }
         $movie_limit = 3;
-        $movie = $this->model('MovieModel')->searchMovie($keyword, $page);
-        $count = $this->model('MovieModel')->countSearchMovie($keyword);
-        $pageCount = ceil((int) $count / $movie_limit);
+        $search = $this->model('MovieModel')->searchMovie($keyword, $page);
+        // $count = $this->model('MovieModel')->countSearchMovie($keyword);
+        // $pageCount = ceil((int) $count / $movie_limit);
 
         $this->data = [
             "title" => "Search / Engima",
             "keyword" => $keyword,
-            "movie" => $movie,
-            "count" => $count,
+            "movie" => $search["movies"],
+            "count" => $search["count"],
             "page" => $page,
-            "pageCount" => $pageCount,
+            "pageCount" => $search["pageCount"],
             "js" => "js/search.js"
         ];
-
+        // var_dump($search);
         $this->view('partial/header', $this->data);
         $this->view('search/index', $this->data);
         $this->view('partial/footer', $this->data);
