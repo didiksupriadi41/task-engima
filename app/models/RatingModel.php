@@ -33,7 +33,7 @@ class RatingModel
         $this->db->bind('idMovie', $idMovie);
 
         $data = $this->db->resultSet();
-        return is_null($data[0]) ? 0 : round($data[0]["rating"], 2);
+        return empty($data) ? 0 : round($data[0]["rating"], 2);
     }
 
     public function insert()
