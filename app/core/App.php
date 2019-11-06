@@ -54,7 +54,7 @@ class App
             } else {
                 $parse["method"] = null;
             }
-            error_log("new method: ". print_r($url, true) . print_r($parse, true));
+            // error_log("new method: ". print_r($url, true) . print_r($parse, true));
             return $parse;
         }
     }
