@@ -116,8 +116,8 @@ class MovieModel
 
     // public function getMovieCategory($idMovie)
     // {
-    //     $query = "SELECT * 
-    //     FROM (Movie NATURAL JOIN MovieCategory) NATURAL JOIN Category 
+    //     $query = "SELECT *
+    //     FROM (Movie NATURAL JOIN MovieCategory) NATURAL JOIN Category
     //     WHERE Movie.idMovie = :id";
     //     $this->db->query($query);
     //     $this->db->bind("id", $idMovie);
@@ -184,9 +184,9 @@ class MovieModel
     public function searchMovie($keyword, $page)
     {
         // $movie_limit = 3;
-        // $query = "SELECT * 
-        // FROM Movie 
-        // WHERE title LIKE :key 
+        // $query = "SELECT *
+        // FROM Movie
+        // WHERE title LIKE :key
         // LIMIT :start, :limit";
         // $this->db->query($query);
         // $this->db->bind("key", "%$keyword%");
