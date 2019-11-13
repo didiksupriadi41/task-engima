@@ -13,7 +13,7 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo BASEURL; ?>/css/custom.css"
+        href="<?php echo BASEURL; ?>css/custom.css"
     >
     <link 
         href="https://fonts.googleapis.com/css?family=Raleway&display=swap" 
