@@ -12,6 +12,9 @@ loc = loc.split("/");
 var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 
 function formatMovieHtml(result, index) {
+    var poster = (result[index].poster == null) ?
+        '<i class="no_image_holder_search"></i>' :
+        `<img class="search-poster" src="${result[index].poster}">`;
     return `
         <div class="row">
             <div class="col-2">
@@ -91,6 +94,8 @@ nextButton.addEventListener("click", function () {
     var page = inputPage.value
     inputPage.value = parseInt(page, 10) + 1
     ajax(inputPage.value, searchWrapper);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     if (parseInt(page, 10) + 1 == parseInt(pageCount, 10)) {
         nextButton.disabled = true;
     }
@@ -103,6 +108,8 @@ prevButton.addEventListener("click", function () {
     var page = inputPage.value
     inputPage.value = parseInt(page, 10) - 1
     ajax(inputPage.value, searchWrapper);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     if (parseInt(page, 10) + 1 != parseInt(pageCount, 10)) {
         nextButton.disabled = false;
     }
@@ -116,6 +123,8 @@ for (var i = 0; i < pageButton.length; i++) {
         var page = parseInt(this.innerHTML, 10);
         inputPage.value = page;
         ajax(inputPage.value, searchWrapper);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         if (parseInt(page, 10) == parseInt(pageCount, 10)) {
             nextButton.disabled = true;
         } else {
