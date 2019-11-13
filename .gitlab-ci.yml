@@ -1,0 +1,33 @@
+
+# Node docker image on which this would be run
+image: node:latest
+
+#This command is run before actual stages start running
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+stages:
+  - test
+  - deploy
+
+lint_js:
+  stage: test
+  before_script:
+    - npm install
+  script:
+    - npm run lint
+
+lint_php:
+  stage: test
+  before_script:
+    - composer install
+  script:
+    - ./vendor/bin/phpcs --standard=psr2 --extensions=php
+  
+deployToAWS:
+  only:
+    - master
+    - development
+  stage: deploy
+  script:
+    - bash deploy.sh
