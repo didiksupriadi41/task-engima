@@ -2,6 +2,8 @@
 
 RewriteEngine On
 
+Options +FollowSymLinks -MultiViews
+
 # Send would-be 404 requests to Craft
 
 RewriteCond %{REQUEST_FILENAME} !-f
