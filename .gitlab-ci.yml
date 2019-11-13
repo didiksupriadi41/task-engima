@@ -1,6 +1,4 @@
 
-# Node docker image on which this would be run
-image: node:latest
 
 #This command is run before actual stages start running
 before_script:
@@ -11,6 +9,7 @@ stages:
   - deploy
 
 lint_js:
+  image: node:latest
   stage: test
   before_script:
     - npm install
@@ -18,6 +17,7 @@ lint_js:
     - npm run lint
 
 lint_php:
+  image: tetraweb/php:latest
   stage: test
   before_script:
     - composer install
