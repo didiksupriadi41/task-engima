@@ -19,10 +19,9 @@ class Movie extends \core\Controller
         $id = $_GET["id"];
         $movie = $this->model('MovieModel')->getSingleMovie($id);
         $rating = $this->model('RatingModel')->getRatingByIdMovie($id);
-        // $schedule = $this->model('MovieModel')->getMovieSchedule($id);
-        $schedule = [];
         $review = $this->model('MovieModel')->getMovieReview($id);
-        // $videoKey = $this->model('VideoModel')->getTrailerByID($id);
+        $videoKey = $this->model('VideoModel')->getTrailerByID($id);
+        $schedule = $this->model('MovieModel')->getMovieSchedule($movie);
 
         if (empty($movie)) {
             $this->redirect->to(BASEURL);
@@ -33,7 +32,7 @@ class Movie extends \core\Controller
                 "movie" => $movie,
                 "schedule" => $schedule,
                 "review" => $review,
-                // "key" => $videoKey,
+                "key" => $videoKey,
             ];
             
             $this->view('partial/header', $this->data);
@@ -82,8 +81,6 @@ class Movie extends \core\Controller
         }
         $movie_limit = 3;
         $search = $this->model('MovieModel')->searchMovie($keyword, $page);
-        // $count = $this->model('MovieModel')->countSearchMovie($keyword);
-        // $pageCount = ceil((int) $count / $movie_limit);
 
         $this->data = [
             "title" => "Search / Engima",
