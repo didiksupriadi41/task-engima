@@ -7,7 +7,7 @@
         <div class="search-wrapper" id="search-wrapper-id">
             <?php foreach ($data["movie"] as $movie) {
                 $poster = ($movie["poster"] == null) ?
-                    '<i class="no_image_holder_search"></i>' :
+                    '<img class="search-poster" src="'. BASEURL .'img/no_img_placeholder.jpg">' :
                     '<img class="search-poster" src="'
                     . $movie["poster"]
                     .'" >';

@@ -48,7 +48,7 @@ body {
 }
 
 .container {
-  width: 80%;
+  width: 70%;
   padding-right: 78px;
   padding-left: 78px;
   margin-right: auto;
@@ -239,7 +239,7 @@ body {
 }
 
 .content {
-  background-color: #262626;
+  background-color: rgba(43, 194, 255, 0.5);
   padding-top: 3rem;
 }
 
@@ -325,7 +325,7 @@ body {
  */
 
 .logo-brand {
-  font-size: 18px;
+  font-size: 1.3em;
   font-weight: 800;
   color: deepskyblue;
 }
@@ -335,12 +335,13 @@ body {
 }
 
 .header-brand {
+  align-self: center;
   text-decoration: none;
 }
 
 .nav-link,
 .nav-item {
-  font-size: 12px;
+  font-size: 1em;
   font-weight: bold;
   padding: 0 1rem;
   min-width: 2rem;
@@ -353,9 +354,10 @@ body {
 }
 
 .header-search {
-  margin-left: 3rem;
   border-radius: 6px;
-  height: 27px;
+  font-size: 1em;
+  height: 3em;
+  margin-left: 3rem;
 }
 
 .input-icon {
@@ -391,7 +393,7 @@ body {
   background-color: white;
   border: 0;
   cursor: pointer ;
-  font-size: 1.5vmin;
+  font-size: 1em;
   padding:0;
 }
 
@@ -816,7 +818,7 @@ body {
 }
 
 .detail-detail p {
-  font-size: 12px;
+  font-size: 1em;
   color: black;
   font-weight: 100;
   text-align: justify;
@@ -1067,7 +1069,7 @@ body {
   border-color: deepskyblue;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 1em;
   font-family: 'Raleway', sans-serif;
   width: 30px;
   height: 30px;
@@ -1092,10 +1094,13 @@ body {
 }
 
 #btn-prev, #btn-next {
+  background-color: white;
   border: none;
   color: deepskyblue;
-  font-size: 12px;
+  cursor: pointer;
+  font-size: 1em;
   padding: 4px;
+  margin: 3px;
 }
 
 #btn-prev:disabled, #btn-next:disabled {
@@ -1135,7 +1140,7 @@ body {
 .movie-home-wrapper {
   display: inline-block !important;
   text-decoration: none !important;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .main-title {
@@ -1151,6 +1156,13 @@ body {
 
 .sub-title {
   font-size: 22px;
+}
+
+.main-movie-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  column-gap: 1vw;
+  row-gap: 1.2em;
 }
 
 .row-movie {
@@ -1191,8 +1203,8 @@ body {
 
 .home-poster-wrapper {
   padding-right: 0;
-  height: 17.78vw;
-  padding-bottom: 12px;
+  /* height: 17.78vw; */
+  /* padding-bottom: 12px; */
 }
 
 .home-movie-title {
@@ -1214,7 +1226,7 @@ body {
   height: 1.6vw;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1134px) {
   .container {
     margin : 0;
     width : 100vw;
@@ -1250,6 +1262,6 @@ body {
 
   .home-poster-wrapper {
     padding-right: 0;
-    height: 160px;
+    /* height: 160px; */
   }
 }

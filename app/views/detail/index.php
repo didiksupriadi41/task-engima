@@ -5,7 +5,7 @@
                 <div class="col-2">
                     <?php
                         echo ($data["movie"]["poster"] == null) ?
-                        '<i class="no_image_holder_detail"></i>' :
+                        '<img class="detail-poster" src="'. BASEURL .'img/no_img_placeholder.jpg">' :
                         '<img class="detail-poster" src="'
                         . $data["movie"]["poster"]
                         .'">';
@@ -14,7 +14,7 @@
                         class="detail-poster"
                     > -->
                 </div>
-                <div class="col-8 detail-detail px-auto">
+                <div class="col-6 detail-detail px-auto">
                     <div class="detail-title">
                         <?php echo $data["movie"]["title"] ?>
                     </div>
@@ -31,6 +31,14 @@
                             <?php $date = date_create($data["movie"]["release"]);
                                 echo date_format($date, "d F, Y")?>
                         </div>
+                        <!-- <?php
+                        if ($data['key']) {
+                            echo '<a href="https://www.youtube.com/watch?v=' . $data["key"].
+                            '" target="_blank">Link to Trailer</a>';
+                        } else {
+                            echo '<p>No trailer found</p>';
+                        }
+                        ?> -->
                         <div class="row double-rating">
                             <div class="detail-rating">
                                 <img src=<?php echo BASEURL . "img/star.png" ?> 
