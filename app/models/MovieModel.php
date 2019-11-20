@@ -31,12 +31,10 @@ class MovieModel
         curl_close($curl);
 
         if ($err) {
-            // echo "cURL Error #:" . $err;
+            error_log("cURL Error #:" . $err);
             return [];
         } elseif (isset($response["status_code"])) {
-            // if ($response["status_code"] == 34) {
             return [];
-            // }
         } else {
             if (is_null($response["poster_path"])) {
                 $poster_url = null;
@@ -88,10 +86,7 @@ class MovieModel
 
         $movies = [];
         $return = [];
-        // if ($err) {
-        //     // echo "cURL Error #:" . $err;
-        //     // return [];
-        // } else {
+
         if (!$err) {
             $results = $response["results"];
             foreach ($results as $movie) {
@@ -114,26 +109,51 @@ class MovieModel
         return $return;
     }
 
-    // public function getMovieCategory($idMovie)
-    // {
-    //     $query = "SELECT *
-    //     FROM (Movie NATURAL JOIN MovieCategory) NATURAL JOIN Category
-    //     WHERE Movie.idMovie = :id";
-    //     $this->db->query($query);
-    //     $this->db->bind("id", $idMovie);
-    //     $data = $this->db->resultSet();
-
-    //     return $data;
-    // }
-
-    public function getMovieSchedule($idMovie)
+    public function addMoviewSchedule($movie, $offset, $time)
     {
-        $query = "SELECT * 
-        FROM Movie NATURAL JOIN Schedule 
-        WHERE Movie.idMovie = :id
-        ORDER BY Schedule.dateTime";
+        $query = "
+        INSERT INTO Schedule (idMovie, dateTime, seatsLeft) 
+        SELECT * FROM (select :idMovie as idMovie, :dateTime,
+            30 as seatsLeft) AS tmp
+        WHERE NOT EXISTS (
+            SELECT idSchedule FROM Schedule 
+            WHERE idMovie = :idMovie AND dateTime like :likeDate
+        ) limit 1";
+
+        $likeDate = date('Y-m-d', strtotime($movie["release"] . "+$offset day"));
+        $dateTime = date('Y-m-d H:i:s', strtotime($movie["release"] . $time . "+$offset day"));
+
         $this->db->query($query);
-        $this->db->bind("id", $idMovie);
+        $this->db->bind("idMovie", $movie["idMovie"]);
+        $this->db->bind("dateTime", $dateTime);
+        $this->db->bind("likeDate", "$likeDate%");
+
+        try {
+            $this->db->execute();
+        } catch (Exception $e) {
+            error_log(e);
+            return false;
+        }
+    
+        return true;
+    }
+
+    public function getMovieSchedule($movie)
+    {
+        $max_movie_number = 7;
+        for ($day=1; $day <= $max_movie_number; $day++) {
+                $time = mt_rand(0, 23) . ":" . mt_rand(0, 59) . ":" . mt_rand(0, 59) ;
+            if (!$this->addMoviewSchedule($movie, $day, $time)) {
+                break;
+            }
+        }
+
+        $query = "SELECT *
+        FROM Schedule
+        WHERE idMovie = :idMovie
+        ORDER BY dateTime";
+        $this->db->query($query);
+        $this->db->bind("idMovie", $movie["idMovie"]);
         $data = $this->db->resultSet();
 
         return $data;
@@ -183,20 +203,6 @@ class MovieModel
 
     public function searchMovie($keyword, $page)
     {
-        // $movie_limit = 3;
-        // $query = "SELECT *
-        // FROM Movie
-        // WHERE title LIKE :key
-        // LIMIT :start, :limit";
-        // $this->db->query($query);
-        // $this->db->bind("key", "%$keyword%");
-        // $this->db->bind("limit", $movie_limit);
-        // $this->db->bind("start", $movie_limit * ((int) $page - 1));
-
-        // $data = $this->db->resultSet();
-
-        // return $data;
-
         $curl = curl_init();
         $url = "https://api.themoviedb.org/3/search/movie?page=$page"
             . "&include_adult=false&query=$keyword"
@@ -223,13 +229,6 @@ class MovieModel
         $return["count"] = 0;
         $return["pageCount"] = 0;
 
-        // // var_dump($response["errors"]);
-        // if ($err || isset($response["errors"])) {
-        //     // echo "cURL Error #:" . $err;
-        //     // var_dump("fail");
-        //     return [];
-        // } else {
-
         if (!$err && !isset($response["errors"])) {
             $return["count"] = $response["total_results"];
             $return["pageCount"] = $response["total_pages"];
@@ -252,17 +251,5 @@ class MovieModel
         }
         $return["movies"] = $movies;
         return $return;
-    }
-
-    public function countSearchMovie($keyword)
-    {
-        $query = "SELECT COUNT(*) AS count 
-        FROM Movie 
-        WHERE title LIKE :key";
-        $this->db->query($query);
-        $this->db->bind("key", "%$keyword%");
-        $data = $this->db->resultSet();
-
-        return $data[0]["count"];
     }
 }
