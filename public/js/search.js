@@ -13,7 +13,7 @@ var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 
 function formatMovieHtml(result, index) {
     var poster = (result[index].poster == null) ?
-        '<i class="no_image_holder_search"></i>' :
+        `<img class="search-poster" src="${dir}/img/no_img_placeholder.jpg">` :
         `<img class="search-poster" src="${result[index].poster}">`;
     return `
         <div class="row">

@@ -5,25 +5,25 @@
         </h1>
         <h2 class="sub-title">Now Playing</h2>
 
-
         <div class="main-movie-wrapper" id="main-movie-wrapper-id">
             <?php
                 $count = count($data['movie']);
                 $rowCount = ceil($count/5);
                 $i = 0;
             for ($j=0; $j<$rowCount; $j++) {
-                echo '<div class="row row-movie">';
+                // echo '<div class="row row-movie">';
                 for ($k=0; $k<5 && $i<$count; $k++) {
                     $poster = ($data["movie"][$i]["poster"] == null) ?
-                    '<i class="no_image_holder"></i>' :
+                    '<img class="home-poster" src="'. BASEURL .'img/no_img_placeholder.jpg">' :
+                    // '<i class="no_image_holder"></i>' :
                     '<img class="home-poster" src="'
                     . $data["movie"][$i]["poster"]
                     .'">';
+                    // <div class="col-2">
                     echo '
-                        <div class="col-2">
-                            <a class="movie-link" href="' . BASEURL . 'movie/detail?id=' .
-                                $data["movie"][$i]["idMovie"] . '">
-                                <div class="movie-home-wrapper">
+                            <div class="movie-home-wrapper">
+                                <a class="movie-link" href="' . BASEURL . 'movie/detail?id=' .
+                                    $data["movie"][$i]["idMovie"] . '">
                                     <div class="home-poster-wrapper">'
                                         . $poster
                                     . '</div>
@@ -36,12 +36,12 @@
                                             $data["movie"][$i]["rating"] .
                                         '</span>
                                     </div>
-                                </div>
-                            </a>
-                        </div>';
+                                </a>
+                            </div>';
+                        // </div>';
                     $i++;
                 }
-                echo '</div>';
+                // echo '</div>';
             }
             ?>
             </div>

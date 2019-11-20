@@ -17,13 +17,12 @@ class Movie extends \core\Controller
         $this->auth->checkAuthenticated();
 
         $id = $_GET["id"];
-        // error_log("start");
         $movie = $this->model('MovieModel')->getSingleMovie($id);
-        // error_log("fin");
         $rating = $this->model('RatingModel')->getRatingByIdMovie($id);
         // $schedule = $this->model('MovieModel')->getMovieSchedule($id);
         $schedule = [];
         $review = $this->model('MovieModel')->getMovieReview($id);
+        // $videoKey = $this->model('VideoModel')->getTrailerByID($id);
 
         if (empty($movie)) {
             $this->redirect->to(BASEURL);
@@ -31,9 +30,10 @@ class Movie extends \core\Controller
             $movie["ratingUSER"] = $rating;
             $this->data = [
                 "title" => "Film Detail / Engima",
-            "movie" => $movie,
-            "schedule" => $schedule,
-            "review" => $review,
+                "movie" => $movie,
+                "schedule" => $schedule,
+                "review" => $review,
+                // "key" => $videoKey,
             ];
             
             $this->view('partial/header', $this->data);
@@ -77,9 +77,9 @@ class Movie extends \core\Controller
         $this->auth->checkAuthenticated();
         $keyword = $_GET['q'];
         $page = 1;
-        // if (array_key_exists("page", $_GET)) {
-        //     $page = $_GET['page'];
-        // }
+        if (array_key_exists("page", $_GET)) {
+            $page = $_GET['page'];
+        }
         $movie_limit = 3;
         $search = $this->model('MovieModel')->searchMovie($keyword, $page);
         // $count = $this->model('MovieModel')->countSearchMovie($keyword);
