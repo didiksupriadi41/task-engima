@@ -20,7 +20,7 @@ class Movie extends \core\Controller
         $movie = $this->model('MovieModel')->getSingleMovie($id);
         $rating = $this->model('RatingModel')->getRatingByIdMovie($id);
         $review = $this->model('MovieModel')->getMovieReview($id);
-        // $videoKey = $this->model('VideoModel')->getTrailerByID($id);
+        $videoKey = $this->model('VideoModel')->getTrailerByID($id);
         $schedule = $this->model('MovieModel')->getMovieSchedule($movie);
 
         if (empty($movie)) {
@@ -32,7 +32,7 @@ class Movie extends \core\Controller
                 "movie" => $movie,
                 "schedule" => $schedule,
                 "review" => $review,
-                // "key" => $videoKey,
+                "key" => $videoKey,
             ];
             
             $this->view('partial/header', $this->data);
