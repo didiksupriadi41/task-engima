@@ -61,14 +61,14 @@ class MovieModel
     public function getPlayingMovie($page)
     {
         date_default_timezone_set('Asia/Jakarta');
-        $timeNow = date('Y-m-d', strtotime("-7 day"));
+        $timeNow = date('Y-m-d', strtotime("-7 day midnight"));
         $timeLater = date('Y-m-d');
 
         $curl = curl_init();
         $url = "https://api.themoviedb.org/3/discover/movie?primary_release_date.lte="
             . "$timeLater&primary_release_date.gte="
             . "$timeNow&page=$page&include_video=false&include_adult=false&sort_by=popularity.desc"
-            . "&language=en-US&vote_count.gte=1&api_key=".API_KEY;
+            . "&vote_count.gte=1&api_key=".API_KEY;
             
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
