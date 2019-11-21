@@ -1,15 +1,13 @@
 <?php
 
 // URL
-define('BASEURL', 'http://localhost/IF3110-2019-02-K03-03/engima/public/');
-// define('BASEURL', getenv('BASEURL'));
+// define('BASEURL', 'http://localhost/IF3110-2019-02-K03-03/engima/public/');
+define('BASEURL', getenv('BASEURL'));
 
 // DATABASE
 define('DB_HOST', '127.0.0.1');
-// define('DB_USER', getenv('USERNAME'));
-define('DB_USER', 'root');
-define('DB_PASS', 'password');
-// define('DB_PASS', getenv('PASSWORD'));
+define('DB_USER', getenv('USERNAME'));
+define('DB_PASS', getenv('PASSWORD'));
 define('DB_NAME', 'tubes2-wbd');
 
 // TheMovieDB
