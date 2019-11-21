@@ -89,7 +89,7 @@ class BookModel
         }
     }
 
-    private function reduceSeatLeft($schedule_id)
+    public function reduceSeatLeft($schedule_id)
     {
         $query = "UPDATE Schedule 
         SET seatsLeft = seatsLeft - 1 

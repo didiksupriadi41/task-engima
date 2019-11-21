@@ -21,6 +21,13 @@ function getVA() {
     return "1234567890";
 }
 
+function reduceSeat(idSchedule) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "api/reduceSeat", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("schedule-id=" + idSchedule);
+}
+
 function wrapper(number) {
     var title = movie_title.innerText;
     var time = movie_time.innerText;
@@ -64,7 +71,6 @@ for (var i = 0; i < chairs.length; i++) {
                         buy_container[0].style.opacity = 0.5;
                         buy_modal_wrapper.style.display = "flex";
                         var temp = JSON.parse(xhr.responseText);
-                        // console.log(temp);
                         if (!temp) {
                             var title = document.getElementById("payment-title-id");
                             var desc = document.getElementById("payment-desc-id");
@@ -72,6 +78,9 @@ for (var i = 0; i < chairs.length; i++) {
                             title.innerText = "Payment Fail!";
                             desc.innerText = "Please check your booking seat again."
                             btn.style.display = "none";
+                        } else {
+                            reduceSeat()
+
                         }
                     }
                 }
