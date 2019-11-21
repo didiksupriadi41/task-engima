@@ -426,7 +426,6 @@ body {
 
 .transaction-detail a{
   text-decoration: none;
-  font-size: 0.75em;
 }
 
 .transaction-title {
@@ -454,12 +453,12 @@ body {
 .btn-wrapper {
   position: absolute;
   right: 0;
-  margin-right: .75rem;
 }
 
 .btn-transaction {
-  font-size: 10px;
-  padding: 4px 12px;
+  font-size: 0.75em;
+  margin: 0 .5em;
+  /* padding: 4px 12px; */
 }
 
 .btn-delete-review {
