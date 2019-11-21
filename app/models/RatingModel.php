@@ -127,9 +127,9 @@ class RatingModel
         $idUser = (int) $this->auth->getUserId();
 
         $query = "SELECT idReview
-        FROM Review NATURAL JOIN Book
-        WHERE Book.idUser = :idUser
-        AND Book.idBook = :idBook";
+        FROM Review
+        WHERE idUser = :idUser
+        AND idBook = :idBook";
 
         $this->db->query($query);
         $this->db->bind('idBook', $idBook);
@@ -152,18 +152,6 @@ class RatingModel
         $this->db->query($query);
         $this->db->bind('idReview', $idReview);
 
-        try {
-            $this->db->execute();
-        } catch (Exception $e) {
-            return false;
-        }
-
-        $query = "UPDATE Book SET isRate = 0 
-        WHERE idBook = :idBook";
-
-        $this->db->query($query);
-        $this->db->bind('idBook', $idBook);
-        
         try {
             $this->db->execute();
         } catch (Exception $e) {

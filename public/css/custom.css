@@ -430,11 +430,11 @@ body {
 }
 
 .transaction-title {
-  font-size: 16px;
+  font-size: 1.3em;
 }
 
 .transaction-schedule {
-  font-size: 12px;
+  font-size: 1em;
 }
 
 .transaction-text {

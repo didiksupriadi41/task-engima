@@ -2,8 +2,8 @@ var loc = window.location.pathname;
 loc = loc.split("/");
 var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 var btnDelete = document.getElementsByClassName('btn-delete-review');
-var bookId = document.getElementsByClassName('book-id');
-var movieId = document.getElementsByClassName('movie-id');
+// var bookId = document.getElementsByClassName('book-id');
+// var movieId = document.getElementsByClassName('movie-id');
 var userId = document.getElementById('user');
 var arrBtn = [];
 var page = document.getElementById('transaction-container');
@@ -16,16 +16,26 @@ for (let i = 0; i < btnDelete.length; i++) {
 for (let i = 0; i < btnDelete.length; i++) {
     btnDelete[i].addEventListener('click', function () {
         var id = arrBtn.indexOf(this);
-        var idBook = bookId[id].value;
-        var idMovie = movieId[id].value;
+        // var idBook = bookId[id].value;
+        // var idMovie = movieId[id].value;
 
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                location.reload();
+                var xhr2 = new XMLHttpRequest();
+                xhr2.onreadystatechange = function() {
+                    location.reload();
+                }
+                xhr2.open('POST', 'http://34.227.112.253:3000/rate');
+                var param = {
+                    idTransaksi: btnDelete[i].id,
+                    val: 0
+                }
+                xhr2.setRequestHeader("Content-Type", "application/json");
+                xhr2.send(JSON.stringify(param));
             }
         }
-        xhr.open('DELETE', 'api/deleteReview?book-id=' + idBook + '&movie-id=' + idMovie);
+        xhr.open('DELETE', 'api/deleteReview?book-id=' + btnDelete[i].id);
         xhr.send();
     })
 }
@@ -77,8 +87,6 @@ function cekDBMovie(transaction) {
     var xhr2 = new XMLHttpRequest();
     xhr2.onreadystatechange = function () {
         if (xhr2.status === 200 && xhr2.readyState === 4) {
-            
-
             const response = JSON.parse(this.response);
             const movieDetail = response.result.movie;
             const movieSchedule = response.result.schedule;
@@ -87,7 +95,6 @@ function cekDBMovie(transaction) {
             const transactionWrapper = document.createElement('div');
             transactionWrapper.setAttribute('class', 'transaction-wrapper');
             page.appendChild(transactionWrapper);
-
             
             // <div class="row">
             const row = document.createElement('div');
@@ -127,7 +134,7 @@ function cekDBMovie(transaction) {
             schedule.textContent = 'Schedule: ';
             transactionSchedule.appendChild(schedule);
 
-            transactionDetail.textContent = movieSchedule.dateTime;
+            transactionSchedule.innerHTML += movieSchedule.dateTime;
 
             // CEK WAKTU
             const jamMovie = new Date(movieSchedule.dateTime);

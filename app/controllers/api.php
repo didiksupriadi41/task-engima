@@ -56,7 +56,7 @@ class Api extends \core\Controller
             $data = new \stdClass();
             $data->status = 200;
             if ($this->model('RatingModel')->delete()) {
-                $this->model('MovieModel')->updateRating();
+                // $this->model('MovieModel')->updateRating();
                 $data->result = true;
             } else {
                 $data->result = false;
