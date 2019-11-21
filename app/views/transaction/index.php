@@ -1,7 +1,15 @@
 <div class="content">
-    <div class="container">
+    <div class="container" id="transaction-container">
         <h1 class="main-title">Transaction History</h1>
-        <?php
+        <input 
+            type="hidden" 
+            id="user"
+            value="<?php echo $data['userId'] ?>"
+        >
+        <p id='loading'>
+            Loading....
+        </p>
+        <!-- <?php
             $books = $data["books"];
         for ($i = 0; $i < count($books); $i++) {
             $book = $books[$i];
@@ -84,6 +92,6 @@
                 echo "<hr>";
             }
         }
-        ?>
+        ?> -->
     </div>
 </div>
