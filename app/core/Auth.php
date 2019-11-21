@@ -15,7 +15,9 @@ class Auth
 
     public function checkAuthenticated($redirect = "login")
     {
+        error_log("auth");
         if ($this->cookie->exists('engima')) {
+            error_log("exists");
             $value = $this->cookie->get('engima');
             $query = "SELECT * 
             FROM Cookie NATURAL JOIN User 
@@ -30,8 +32,10 @@ class Auth
             $data = $this->db->resultSet();
 
             if (count($data) == 0) {
+                error_log("to_logout");
                 $this->redirect->to(BASEURL. "logout");
             } else {
+                error_log("back to home");
                 $query = "UPDATE Cookie 
                 SET expiredDate = :expiredDate 
                 WHERE value = :value";
@@ -44,6 +48,7 @@ class Auth
                 $this->db->execute();
             }
         } else {
+            error_log("redirect to login");
             $this->redirect->to(BASEURL. $redirect);
         }
     }

@@ -10,6 +10,9 @@ class App
     public function __construct()
     {
         $url = $this->parseURL();
+        error_log(BASEURL);
+        error_log(DB_USER);
+        error_log(DB_PASS);
 
         // controller
         if (file_exists('../app/controllers/' . $url["controller"] . '.php')) {
@@ -19,7 +22,7 @@ class App
         }
         include_once '../app/controllers/' . $this->controllerName . '.php';
         $this->controller = new $this->controller;
-        
+
         // method
         if (isset($url["method"])) {
             if (method_exists($this->controller, $url["method"])) {
@@ -54,7 +57,7 @@ class App
             } else {
                 $parse["method"] = null;
             }
-            // error_log("new method: ". print_r($url, true) . print_r($parse, true));
+            error_log("new method: ". print_r($url, true) . print_r($parse, true));
             return $parse;
         }
     }

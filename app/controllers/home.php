@@ -13,6 +13,7 @@ class Home extends \core\Controller
 
     public function index()
     {
+        error_log("home");
         $this->auth->checkAuthenticated();
         $page = 1;
         if (array_key_exists("page", $_GET)) {
