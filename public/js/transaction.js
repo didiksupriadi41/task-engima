@@ -6,45 +6,10 @@ var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 // var movieId = document.getElementsByClassName('movie-id');
 var userId = document.getElementById('user');
 // var arrBtn = [];
-var page = document.getElementById('transaction-container');
+var container = document.getElementById('transaction-history-container');
 var isTransactionSuccessExist = false;
-
-// for (let i = 0; i < btnDelete.length; i++) {
-//     arrBtn.push(btnDelete[i]);
-// }
-
-// for (let i = 0; i < btnDelete.length; i++) {
-//     console.log(i);
-
-//     btnDelete[i].addEventListener('click', function () {
-//         // var id = arrBtn.indexOf(this);
-//         // var idBook = bookId[id].value;
-//         // var idMovie = movieId[id].value;
-//         console.log('new');
-
-//         var xhr = new XMLHttpRequest();
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState == 4 && xhr.status == 200) {
-//                 console.log('kedua');
-//                 console.log(btnDelete[i].id);
-
-//                 var xhr2 = new XMLHttpRequest();
-//                 xhr2.onreadystatechange = function () {
-//                     location.reload();
-//                 }
-//                 xhr2.open('POST', 'http://34.227.112.253:3000/rate');
-//                 var param = {
-//                     idTransaksi: btnDelete[i].id,
-//                     val: 0
-//                 }
-//                 xhr2.setRequestHeader("Content-Type", "application/json");
-//                 xhr2.send(JSON.stringify(param));
-//             }
-//         }
-//         xhr.open('DELETE', 'api/deleteReview?book-id=' + btnDelete[i].id);
-//         xhr.send();
-//     })
-// }
+const render_time_out = 15000;
+const call_time_out = 1000;
 
 function setIsRatedWS(isRate, id) {
     var xhr2 = new XMLHttpRequest();
@@ -133,7 +98,7 @@ function cekDBMovie(transaction) {
             // <div class="transaction-wrapper">
             const transactionWrapper = document.createElement('div');
             transactionWrapper.setAttribute('class', 'transaction-wrapper');
-            page.appendChild(transactionWrapper);
+            container.appendChild(transactionWrapper);
 
             // <div class="row">
             const row = document.createElement('div');
@@ -194,24 +159,14 @@ function cekDBMovie(transaction) {
 
 function transactionHistory() {
     var xhr = new XMLHttpRequest();
-
-    // console.log(userId.value);
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
             const dataTransaksi = JSON.parse(this.response);
-
-            // console.log(dataTransaksi);
-
             dataTransaksi.transaction.forEach((transaction) => {
                 if (transaction.status == 'success') {
+                    container.innerHTML = "";
                     cekDBMovie(transaction);
                     isTransactionSuccessExist = true;
-                } else if (transaction.status == 'pending') {
-                    // panggil ws-bank
-                    // kalau udah bayar maka editTransaction dipanggil
-                    // kalau belum yaudah
-                } else { //transaction.status == 'cancelled'
-
                 }
             })
 
@@ -220,13 +175,42 @@ function transactionHistory() {
             } else {
                 document.getElementById('loading').textContent = "No Transaction Found";
             }
+            setTimeout(transactionHistory, render_time_out);
         }
     }
     xhr.open('GET', 'http://34.227.112.253:3000/get?idUser=' + userId.value);
     xhr.send();
 }
 
+async function cekPayStatus() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.status === 200 && xhr.readyState === 4) {
+            const dataTransaksi = JSON.parse(this.response);
+            const transaction = dataTransaksi.transaction;
 
-window.onload = function () {
+            if (transaction.status == 'pending') {
+                var dateLine = new Date(transaction.creationTime);
+                dateLine.setMinutes(dateLine.getMinutes() + 2);
+                var now = new Date();
+                if (dateLine < now) {
+                    // kirim edit ke ws
+                } else {
+                    // panggil ws-bank
+                    // kalau udah bayar maka editTransaction dipanggil
+                    // kalau belum yaudah
+                }
+            }
+        }
+    }
+    xhr.open('GET', 'http://34.227.112.253:3000/get?idUser=' + userId.value);
+    xhr.send();
+    return new Promise(() => {
+        setTimeout(() => { cekPayStatus() }, call_time_out)
+    })
+}
+
+window.onload = async function () {
+    cekPayStatus();
     transactionHistory();
 }
