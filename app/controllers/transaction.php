@@ -13,10 +13,12 @@ class Transaction extends \core\Controller
     public function index()
     {
         $this->auth->checkAuthenticated();
-        $books = $this->model('BookModel')->getAllBook();
+        $idUser = $this->auth->getUserId();
+        // $books = $this->model('BookModel')->getAllBook();
         $this->data = [
             "title" => "Transaction / Engima",
-            "books" => $books,
+            // "books" => $books,
+            "userId" => $idUser,
             "js" => "js/transaction.js"
         ];
         $this->view('partial/header', $this->data);

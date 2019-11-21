@@ -421,10 +421,12 @@ body {
   padding-left: 24px;
   margin-top: auto;
   margin-bottom: auto;
+  font-size: 1.2em;
 }
 
 .transaction-detail a{
   text-decoration: none;
+  font-size: 0.75em;
 }
 
 .transaction-title {
@@ -436,7 +438,7 @@ body {
 }
 
 .transaction-text {
-  font-size: 10px;
+  font-size: 0.75em;
   color: #b5b5b5
 }
 

@@ -78,4 +78,13 @@ class Api extends \core\Controller
 
         echo json_encode($arrMovie["movies"]);
     }
+
+    public function getTransaction()
+    {
+        $data = new \stdClass();
+        $data->status = 200;
+        $data->result ['movie'] = $this->model('MovieModel')->getSingleMovie($_GET['movie-id']);
+        $data->result ['schedule'] = $this->model('ScheduleModel')->getScheduleByID();
+        echo json_encode($data);
+    }
 }
