@@ -15,16 +15,7 @@ class Api extends \core\Controller
         $response = json_encode($data);
         echo $response;
     }
-
-    // public function book()
-    // {
-    //     $data = new \stdClass();
-    //     $data->status = 200;
-
-    //     $data->result = $this->model('BookModel')->insertSeat();
-    //     $response = json_encode($data);
-    //     echo $response;
-    // }
+    
     public function reduceSeat()
     {
         $data = new \stdClass();
@@ -44,16 +35,6 @@ class Api extends \core\Controller
 
         echo json_encode($arrMovie["movies"]);
     }
-
-    // public function chairCheck()
-    // {
-    //     $data = new \stdClass();
-    //     $data->status = 200;
-
-    //     $data->data = $this->model('BookModel')->getDisabledSeat();
-    //     $response = json_encode($data);
-    //     echo $response;
-    // }
 
     public function deleteReview()
     {
