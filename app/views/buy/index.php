@@ -11,7 +11,7 @@
                 </div>
                 <div class="movie-detail">
                     <div class="movie-title" id="movie-title-id">
-                        <?php echo $data["schedule"]["title"] ?>
+                        <?php echo $data["movie"]["title"] ?>
                     </div>
                     <div clas="movie-time" id="movie-time-id">
                         <?php echo date_format(
@@ -25,11 +25,11 @@
                 <div class="chair-layout">
                     <?php
                     for ($i = 1; $i <= 30; $i++) {
-                        if (in_array((string) $i, $data["disabled_seat"])) {
-                            echo "<button class=\"chair\" disabled>" . $i . "</button>";
-                        } else {
-                            echo "<button class=\"chair\">" . $i . "</button>";
-                        }
+                        echo "<button class=\"chair\">" . $i . "</button>";
+                        // if (in_array((string) $i, $data["disabled_seat"])) {
+                        //     echo "<button class=\"chair\" disabled>" . $i . "</button>";
+                        // } else {
+                        // }
                     }
                     ?>
                 </div>

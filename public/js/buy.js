@@ -2,18 +2,24 @@ var movie_title = document.getElementById("movie-title-id");
 var movie_time = document.getElementById("movie-time-id");
 var chairs = document.getElementsByClassName("chair");
 var summary_wrapper = document.getElementById("summary-wrapper-id");
-// var input_user_id = document.getElementById("input-user-id");
+var input_user_id = document.getElementById("input-user-id");
 var back_btn = document.getElementById("back-btn-id");
 var buy_modal_wrapper = document.getElementById("buy-modal-wrapper-id");
 var content = document.getElementsByClassName("content");
 var buy_container = content[0].getElementsByClassName("container");
 var chair_layout = document.getElementsByClassName("chair");
-var time_out = 3000;
-var loc = window.location.pathname;
-loc = loc.split("/");
-var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
+var time_out = 2000;
+// var loc = window.location.pathname;
+// loc = loc.split("/");
+// var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
+var ip_ws_transaksi = '34.227.112.253:3000';
+// var ip_ws_transaksi = 'localhost:3000';
 
 var urlParams = new URLSearchParams(window.location.search);
+
+function getVA() {
+    return "1234567890";
+}
 
 function wrapper(number) {
     var title = movie_title.innerText;
@@ -58,7 +64,8 @@ for (var i = 0; i < chairs.length; i++) {
                         buy_container[0].style.opacity = 0.5;
                         buy_modal_wrapper.style.display = "flex";
                         var temp = JSON.parse(xhr.responseText);
-                        if (!temp.result) {
+                        // console.log(temp);
+                        if (!temp) {
                             var title = document.getElementById("payment-title-id");
                             var desc = document.getElementById("payment-desc-id");
                             var btn = document.getElementById("goto-transaction-id");
@@ -69,13 +76,23 @@ for (var i = 0; i < chairs.length; i++) {
                     }
                 }
             }
-            var param = `schedule-id=${urlParams.get("schedule-id")}&seat-number=${temp}`;
 
-            xhr.open('POST', dir + "/api/book", true);
+            var virtualAccount = getVA();
+
+            var param = {
+                idUser: input_user_id.value,
+                virtualAccount: virtualAccount,
+                idMovie: parseInt(urlParams.get("movie-id"), 10),
+                idSchedule: parseInt(urlParams.get("schedule-id"), 10),
+                seat: temp
+            };
+
+            // xhr.open('GET', dir + "/api/book", true);
+            var urlTransaksi = `http://${ip_ws_transaksi}/add`;
             // var urlTransaksi = `http://127.0.0.1:3000/transaksi?idUser=${input_user_id.value}&virtualAccount=0&idMovie=${urlParams.get("movie-id")}&idSchedule=${urlParams.get("schedule-id")}&seat=${temp}`;
-            // xhr.open('GET', urlTransaksi, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send(param);
+            xhr.open('POST', urlTransaksi, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(param));
 
         })
     })
@@ -99,21 +116,25 @@ function fetchchair() {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
-                response.data.forEach(function (item) {
-                    chair_layout[item.seat - 1].disabled = true;
+                for (let item = 0; item < 30; item++) {
+                    chair_layout[item].disabled = false;
+                }
+                response.seats.forEach(function (item) {
+                    if (item <= 30 && item > 0)
+                        chair_layout[item - 1].disabled = true;
                 });
                 setTimeout(fetchchair, time_out);
             }
         }
     }
-    var param = `schedule-id=${urlParams.get("schedule-id")} `;
-
-    var url = dir + '/api/chairCheck?' + param
+    var param = `idSchedule=${urlParams.get("schedule-id")}`;
+    var url = 'http://' + ip_ws_transaksi + '/seat?' + param
     xhr.open('GET', url, true);
     xhr.send();
 }
 
 window.onload = function () {
-    this.setTimeout(fetchchair, time_out);
+    // this.setTimeout(fetchchair, time_out);
+    fetchchair();
 };
 
