@@ -16,14 +16,21 @@ class Api extends \core\Controller
         echo $response;
     }
 
-    public function book()
+    // public function book()
+    // {
+    //     $data = new \stdClass();
+    //     $data->status = 200;
+
+    //     $data->result = $this->model('BookModel')->insertSeat();
+    //     $response = json_encode($data);
+    //     echo $response;
+    // }
+    public function reduceSeat()
     {
         $data = new \stdClass();
         $data->status = 200;
-
-        $data->result = $this->model('BookModel')->insertSeat();
-        $response = json_encode($data);
-        echo $response;
+        $data->result = $this->model('BookModel')->reduceSeatLeft($_POST['schedule-id']);
+        echo json_encode($data);
     }
 
     public function search()
@@ -38,15 +45,15 @@ class Api extends \core\Controller
         echo json_encode($arrMovie["movies"]);
     }
 
-    public function chairCheck()
-    {
-        $data = new \stdClass();
-        $data->status = 200;
+    // public function chairCheck()
+    // {
+    //     $data = new \stdClass();
+    //     $data->status = 200;
 
-        $data->data = $this->model('BookModel')->getDisabledSeat();
-        $response = json_encode($data);
-        echo $response;
-    }
+    //     $data->data = $this->model('BookModel')->getDisabledSeat();
+    //     $response = json_encode($data);
+    //     echo $response;
+    // }
 
     public function deleteReview()
     {
