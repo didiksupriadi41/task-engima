@@ -36,15 +36,35 @@ class RatingModel
         return empty($data) ? 0 : round($data[0]["rating"], 2);
     }
 
+    private function updateIsRate($idTransaksi, $isRate)
+    {
+        $url = 'http://34.227.112.253:3000/rate';
+        $data = array('idTransaksi' => $idTransaksi, 'val' => $isRate);
+
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === false) {
+            error_log(print_r($result, true));
+        }
+    }
+
     public function insert()
     {
         $idBook = $_GET["book-id"];
         $idMovie = $_GET["movie-id"];
         $idUser = $this->auth->getUserId();
         $query = "SELECT *
-        FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
-        WHERE Book.idUser = :idUser AND idBook = :idBook
-        AND Schedule.idMovie = :idMovie";
+        FROM Review
+        WHERE idUser = :idUser AND idBook = :idBook
+        AND idMovie = :idMovie";
 
         $this->db->query($query);
         $this->db->bind('idUser', (int) $idUser);
@@ -52,35 +72,23 @@ class RatingModel
         $this->db->bind('idMovie', (int) $idMovie);
         $data = $this->db->resultSet();
 
-        if (count($data) != 1) {
+        if (count($data)!=0) {
             return false;
         }
 
         $query = "INSERT INTO Review
-        (idMovie, idBook, value, text)
-        VALUES (:idMovie, :idBook, :value, :text)";
+        (idMovie, idBook, idUser, value, text)
+        VALUES (:idMovie, :idBook, :idUser, :value, :text)";
 
         $this->db->query($query);
         $this->db->bind('idMovie', $idMovie);
         $this->db->bind('idBook', $idBook);
+        $this->db->bind('idUser', (int) $idUser);
         $this->db->bind('value', $_POST["value"]);
         $this->db->bind('text', $_POST["review"]);
         $data = $this->db->execute();
 
-        $query = "UPDATE Book 
-        SET isRate = 1 
-        WHERE idBook = :idBook 
-        AND idUser = :idUser";
-
-        $this->db->query($query);
-        $this->db->bind('idBook', $idBook);
-        $this->db->bind('idUser', $idUser);
-
-        try {
-            $this->db->execute();
-        } catch (Exception $e) {
-            return false;
-        }
+        $this->updateIsRate($idBook, 1);
 
         return true;
     }
@@ -90,9 +98,9 @@ class RatingModel
         $idReview = $_GET["review-id"];
         $idUser = $this->auth->getUserId();
         $query = "SELECT *
-        FROM Review NATURAL JOIN Book
+        FROM Review
         WHERE idReview = :idReview 
-        AND Book.idUser = :idUser";
+        AND idUser = :idUser";
 
         $this->db->query($query);
         $this->db->bind('idReview', (int) $idReview);

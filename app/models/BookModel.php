@@ -11,28 +11,30 @@ class BookModel
         $this->auth = new \core\Auth;
     }
 
-    public function getAllBook()
-    {
-        $idUser = $this->auth->getUserId();
-        $query = "SELECT idBook, poster, title, dateTime, isRate, Schedule.idMovie 
-        FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
-        WHERE Book.idUser = :idUser
-        ORDER BY dateTime DESC";
-        $this->db->query($query);
-        $this->db->bind('idUser', (int) $idUser);
-        $data = $this->db->resultSet();
-        return $data;
-    }
+    // public function getAllBook()
+    // {
+    //     $idUser = $this->auth->getUserId();
+    //     $query = "SELECT idBook, poster, title, dateTime, isRate, Schedule.idMovie 
+    //     FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
+    //     WHERE Book.idUser = :idUser
+    //     ORDER BY dateTime DESC";
+    //     $this->db->query($query);
+    //     $this->db->bind('idUser', (int) $idUser);
+    //     $data = $this->db->resultSet();
+    //     return $data;
+    // }
 
     public function getBookById()
     {
-        $id = $_GET["book-id"];
-        $query = "SELECT idUser, idBook, Schedule.idMovie, poster, title, dateTime, isRate 
-        FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
-        WHERE idBook = :id
-        ORDER BY dateTime DESC";
+        // $idSchedule = $_GET["schedule-id"];
+        $idBooking = $_GET["book-id"];
+        $query = "SELECT * 
+        FROM Review 
+        WHERE idBook = :idBook";
+        // ORDER BY dateTime DESC";
         $this->db->query($query);
-        $this->db->bind('id', (int) $id);
+        // $this->db->bind('idSchedule', $idSchedule);
+        $this->db->bind('idBook', $idBooking);
         $data = $this->db->resultSet();
 
         return $data[0];
