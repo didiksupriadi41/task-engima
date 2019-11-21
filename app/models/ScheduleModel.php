@@ -13,8 +13,8 @@ class ScheduleModel
 
         $movie_id = $_GET["movie-id"];
         $schedule_id = $_GET["schedule-id"];
-        $query = "SELECT * FROM Schedule NATURAL JOIN Movie
-        WHERE Schedule.idSchedule = :schedule_id AND Schedule.idMovie = :movie_id";
+        $query = "SELECT * FROM Schedule 
+        WHERE idSchedule = :schedule_id AND idMovie = :movie_id";
 
         $this->db->query($query);
         $this->db->bind('schedule_id', $schedule_id);
