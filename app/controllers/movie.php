@@ -46,25 +46,28 @@ class Movie extends \core\Controller
         $this->auth->checkAuthenticated();
         if ($this->model('ScheduleModel')->isScheduleExist()) {
             $schedule = $this->model('ScheduleModel')->getScheduleByID();
-
+            $movie = $this->model('MovieModel')->getSingleMovie($schedule["idMovie"]);
             date_default_timezone_set('Asia/Jakarta');
             if ($schedule["seatsLeft"] == 0 || strtotime($schedule["dateTime"]) < time()) {
                 $this->redirect->to(BASEURL);
             } else {
-                $booked_seat = $this->model('BookModel')->getDisabledSeat();
+                // $booked_seat = $this->model('BookModel')->getDisabledSeat();
                 $disabled_seat = [];
                 foreach ($booked_seat as $seat) {
                     array_push($disabled_seat, $seat["seat"]);
                 }
                 $idUser = $this->auth->getUserId();
-                $data["schedule"] = $schedule;
-                $data["disabled_seat"] = $disabled_seat;
-                $data['title'] = 'Buy ' . $schedule["title"] . ' Ticket / Engima';
-                $data['idUser'] = $idUser;
-                $data['js'] = 'js/buy.js';
-                $this->view('partial/header', $data);
-                $this->view('buy/index', $data);
-                $this->view('partial/footer', $data);
+                $this->$data = [
+                    "schedule" => $schedule,
+                    // "disabled_seat" => $disabled_seat,
+                    'title' => 'Buy ' . $movie["title"] . ' Ticket / Engima',
+                    'movie' => $movie,
+                    'idUser' => $idUser,
+                    'js' => 'js/buy.js'
+                ];
+                $this->view('partial/header', $this->$data);
+                $this->view('buy/index', $this->$data);
+                $this->view('partial/footer', $this->$data);
             }
         } else {
             $this->redirect->to(BASEURL);
