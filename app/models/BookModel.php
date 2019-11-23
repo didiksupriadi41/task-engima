@@ -14,7 +14,7 @@ class BookModel
     // public function getAllBook()
     // {
     //     $idUser = $this->auth->getUserId();
-    //     $query = "SELECT idBook, poster, title, dateTime, isRate, Schedule.idMovie 
+    //     $query = "SELECT idBook, poster, title, dateTime, isRate, Schedule.idMovie
     //     FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
     //     WHERE Book.idUser = :idUser
     //     ORDER BY dateTime DESC";
