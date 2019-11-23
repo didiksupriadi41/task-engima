@@ -17,8 +17,8 @@
         <div class="rating-content">
             <form 
                 action="<?php echo BASEURL . 'rating/update?review-id=' .
-                    $data["rating"]["idReview"] . '&movie-id=' .
-                    $data["movie"]["idMovie"]; ?>" 
+                    $data["review"]["idReview"] . '&movie-id=' .
+                    $data["review"]["idMovie"]; ?>" 
                 method="POST" 
                 class="form-rating"
             >
@@ -36,7 +36,7 @@
                                 <input 
                                     id="form-value" 
                                     name="value" 
-                                    value="<?php echo $data["rating"]["value"]; ?>" 
+                                    value="<?php echo $data["review"]["value"]; ?>" 
                                     hidden
                                 >
                             </div>
@@ -49,7 +49,7 @@
                                 <textarea 
                                     class="form-review form-control" 
                                     name="review"
-                                ><?php echo $data["rating"]["text"]; ?></textarea>
+                                ><?php echo $data["review"]["text"]; ?></textarea>
                             </div>
                         </div>
                     </div>

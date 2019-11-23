@@ -9,6 +9,7 @@
         <p id='loading'>
             Loading....
         </p>
+        <div id="transaction-history-container"></div>
         <!-- <?php
             $books = $data["books"];
         for ($i = 0; $i < count($books); $i++) {

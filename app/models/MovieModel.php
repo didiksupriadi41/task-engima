@@ -162,7 +162,7 @@ class MovieModel
     public function getMovieReview($idMovie)
     {
         $queryReview = "SELECT * 
-        FROM (Review NATURAL JOIN Book) NATURAL JOIN User 
+        FROM Review NATURAL JOIN User 
         WHERE idMovie = :id";
         $this->db->query($queryReview);
         $this->db->bind("id", $idMovie);
@@ -171,35 +171,35 @@ class MovieModel
         return $data;
     }
 
-    public function updateRating()
-    {
-        $idMovie = $_GET["movie-id"];
+    // public function updateRating()
+    // {
+    //     $idMovie = $_GET["movie-id"];
 
-        $queryRating = "SELECT avg(value) AS 'rating'
-        FROM Review
-        WHERE idMovie = :idMovie";
+    //     $queryRating = "SELECT avg(value) AS 'rating'
+    //     FROM Review
+    //     WHERE idMovie = :idMovie";
 
-        $this->db->query($queryRating);
-        $this->db->bind('idMovie', $idMovie);
-        $data = $this->db->resultSet();
-        $rating = $data[0]["rating"];
+    //     $this->db->query($queryRating);
+    //     $this->db->bind('idMovie', $idMovie);
+    //     $data = $this->db->resultSet();
+    //     $rating = $data[0]["rating"];
 
-        $queryUpdate = "UPDATE Movie
-        SET rating = :rating
-        WHERE idMovie = :idMovie";
+    //     $queryUpdate = "UPDATE Movie
+    //     SET rating = :rating
+    //     WHERE idMovie = :idMovie";
         
-        $this->db->query($queryUpdate);
-        $this->db->bind('rating', $rating);
-        $this->db->bind('idMovie', $idMovie);
+    //     $this->db->query($queryUpdate);
+    //     $this->db->bind('rating', $rating);
+    //     $this->db->bind('idMovie', $idMovie);
         
-        try {
-            $this->db->execute();
-        } catch (Exception $e) {
-            return false;
-        }
+    //     try {
+    //         $this->db->execute();
+    //     } catch (Exception $e) {
+    //         return false;
+    //     }
     
-        return true;
-    }
+    //     return true;
+    // }
 
     public function searchMovie($keyword, $page)
     {

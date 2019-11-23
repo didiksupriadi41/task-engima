@@ -18,7 +18,7 @@
         <div class="rating-content">
             <form 
                 action="<?php echo BASEURL . 'rating/insert?book-id=' .
-                    $data["movie"]["idBook"] . '&movie-id=' .
+                    $data["idBook"] . '&movie-id=' .
                     $data["movie"]["idMovie"]; ?>" 
                 method="POST" 
                 class="form-rating"
