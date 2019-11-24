@@ -34,6 +34,8 @@ Halaman transaksi menampilkan status transaksi, jika masih pending akan ditampil
 Perubahan halaman dilakukan secara realtime
 <br><br>
 
+## URL deployment
+URL: http://http://34.227.112.253/engima/public/
 
 ## Pembagian Tugas
 
