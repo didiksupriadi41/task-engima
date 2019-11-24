@@ -108,8 +108,8 @@ class BookModel
 
         return (30-$usedSeat);
 
-        // $query = "UPDATE Schedule 
-        // SET seatsLeft = :seatLeft 
+        // $query = "UPDATE Schedule
+        // SET seatsLeft = :seatLeft
         // WHERE idSchedule = :schedule_id";
         
         // $this->db->query($query);
