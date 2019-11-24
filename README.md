@@ -1,60 +1,39 @@
 # Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web
 
-## System requirement
+## Deskripsi Aplikasi
 
-Minimum requirement:
+Saat ini Engi ingin melakukan ekspansi usaha dengan membangun sebuah bioskop. Setelah berdiri selama 2 bulan, Engi merasa bioskopnya sepi dibanding bioskop kompetitor lainnya. Usut punya usut, ternyata faktor utama penyebab sepinya bioskop Engi adalah tidak adanya kemudahan pemesanan tiket secara daring. Oleh karena itu, Engi meminta Anda untuk membuat aplikasi web pemesanan tiket bioskop daring. Engi menginginkan website miliknya untuk memiliki fitur pembelian tiket, memberi ulasan pada film yang telah ditonton, login dan register, riwayat pembelian tiket.
 
-1. XAMPP 7.3.0-0
-2. PHP 7.1.0
-3. Chrome Version 77.0.3865.90 (Official Build) (64-bit)
+Engi telah mempekerjakan seorang UI/UX profesional untuk mendesain tampilan *website*-nya. Anda diminta untuk mengimplementasikan tampilan sedemikian mirip dengan tampilan pada contoh. Engi tidak meminta Anda untuk membangun *website* yang *responsive*. Icon dan jenis font tidak harus sama dengan contoh. Tata letak elemen, warna font, garis pemisah, dan perbedaan ukuran font harus terlihat sesuai contoh. Format rating dan waktu harus terlihat sesuai contoh tampilan.
 
+Setelah aplikasi web Engima diluncurkan, bioskop Engi menjadi sangat laku. Sebelumnya, Engi
+mengurus semua transaksi tiket film dan penambahan data film secara manual. Karena
+kewalahan, akhirnya Engi pergi ke seorang konsultan IT untuk menemukan solusi dari
+permasalahannya. Konsultan menyarankan Engi untuk menggunakan ​ web service untuk
+mempermudah pekerjaannya. Melihat aplikasi web yang Anda kerjakan memuaskan, Engi
+meminta Anda untuk mengimplementasikan perubahan tersebut beserta ​ web service dan
+aplikasi Bank yang digunakan untuk transaksi tiket film di Engima.
 
-## Cara Instalasi
-
-1. Download XAMPP di https://www.apachefriends.org/download.html
-
-2. Ikuti petunjuk instalasi XAMPP
-
-2. Buka terminal dan pindah ke direktori /Applications/XAMPP/xamppfiles/htdocs
-
-3. Jalankan perintah:
+## Schema Basis Data Engima
+![](ss/db.jpg)
 
 
-```
-git clone https://gitlab.informatika.org/if3110-2019-02-K03-03/engima
-```
+## ScreenShot
+![](ss/home.png)
+Home mengambil dari TMDB tambah pagination
+<br><br>
+![](ss/detail.png)
+Halaman detail mengambil dari TMDB tambah trailer film jika ada<br>
+Review yang ditampilkan ada 2 yaitu dari TMDB dan dari review pengguna Engima
+<br><br>
+![](ss/modal.png)
+Modal detail ditambahkan virtual account dan id transaksi
+<br><br>
+![](ss/transaksi.png)
+Halaman transaksi menampilkan status transaksi, jika masih pending akan ditampilkan waktu countdown dan virtual accountnya<br>
+Perubahan halaman dilakukan secara realtime
+<br><br>
 
-## Cara menjalankan *server*
-
-1. Buka terminal dan jalankan perintah:
-
-### Windows
-
-```
-\xampp\xampp_start.exe
-```
-
-### Linux
-
-```
-sudo /opt/lampp/lampp start
-```
-
-### Mac
-
-```
-sudo /Applications/XAMPP/xamppfiles/xampp start
-```
-
-2. Pada browser, buka URL http://localhost/phpmyadmin
-
-3. Klik New dan masukkan Database Name 'tubes2-wbd'
-
-4. Klik Import dan Choose File
-
-5. Pilih file 'tubes2-wbd.sql' dan klik Go
-
-6. Buka URL http://localhost/IF3110-2019-02-K03-03/engima/public/
 
 ## Pembagian Tugas
 

@@ -22,7 +22,11 @@ class Movie extends \core\Controller
         $review = $this->model('MovieModel')->getMovieReview($id);
         $videoKey = $this->model('VideoModel')->getTrailerByID($id);
         $schedule = $this->model('MovieModel')->getMovieSchedule($movie);
-
+        for ($i=0; $i < count($schedule); $i++) {
+            $seat = $this->model('BookModel')->getSeatLeft($schedule[$i]["idSchedule"]);
+            $schedule[$i]["seatsLeft"] = $seat;
+        }
+        
         if (empty($movie)) {
             $this->redirect->to(BASEURL);
         } else {

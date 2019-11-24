@@ -15,13 +15,18 @@ class Rating extends \core\Controller
     public function new()
     {
         $this->auth->checkAuthenticated();
-        $movie = $this->model('BookModel')->getBookById();
-        if ($movie["isRate"] != 0) {
+        $idBook = $_GET["book-id"];
+        $idMovie = $_GET['movie-id'];
+        $book = $this->model('BookModel')->getBookById();
+        $movie = $this->model('MovieModel')->getSingleMovie($idMovie);
+        if (count($book)!=0) {
             $this->redirect->to(BASEURL."transaction");
         }
         $this->data = [
             "title" => "Add Rating / Engima",
             "js" => 'js/rating.js',
+            // "book" => $book,
+            "idBook" => $idBook,
             "movie" => $movie
         ];
         
@@ -32,25 +37,26 @@ class Rating extends \core\Controller
 
     public function edit()
     {
-        $idUser = $this->auth->getUserId();
-        $idBook = $_GET["book-id"];
         $this->auth->checkAuthenticated();
-        $movie = $this->model('BookModel')->getBookById($idBook);
-        
-        if (count($movie) != 0) {
-            if ($movie["idUser"] != $idUser || $movie["isRate"] == 0) {
+        $idUser = $this->auth->getUserId();
+        // $idBook = $_GET["book-id"];
+        $review = $this->model('BookModel')->getBookById();
+        $movie = $this->model('MovieModel')->getSingleMovie($review["idMovie"]);
+        if (count($review) != 0) {
+            if ($review["idUser"] != $idUser) {
                 $this->redirect->to(BASEURL. "transaction");
             }
         } else {
             $this->redirect->to(BASEURL. "transaction");
         }
         
-        $rating = $this->model('RatingModel')->getRatingByIdBook($idBook);
+        // $rating = $this->model('RatingModel')->getRatingByIdBook($idBook);
         $this->data = [
             "title" => "Edit Rating / Engima",
             "js" => 'js/rating.js',
-            "movie" => $movie,
-            "rating" => $rating
+            "review" => $review,
+            "movie" => $movie
+            // "rating" => $rating
         ];
         $this->view('partial/header', $this->data);
         $this->view('rating/edit', $this->data);
@@ -61,7 +67,7 @@ class Rating extends \core\Controller
     {
         $this->auth->checkAuthenticated();
         if ($this->model('RatingModel')->insert()) {
-            $this->model('MovieModel')->updateRating();
+            // $this->model('MovieModel')->updateRating();
             $this->redirect->to(BASEURL. "transaction");
         } else {
             $this->redirect->to(BASEURL. "transaction");
@@ -72,7 +78,7 @@ class Rating extends \core\Controller
     {
         $this->auth->checkAuthenticated();
         if ($this->model('RatingModel')->update()) {
-            $this->model('MovieModel')->updateRating();
+            // $this->model('MovieModel')->updateRating();
             $this->redirect->to(BASEURL. "transaction");
         } else {
             $this->redirect->to(BASEURL. "transaction");
