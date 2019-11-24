@@ -1,25 +1,40 @@
 var loc = window.location.pathname;
 loc = loc.split("/");
 var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
-// var btnDelete = document.getElementsByClassName('btn-delete-review');
-// var bookId = document.getElementsByClassName('book-id');
-// var movieId = document.getElementsByClassName('movie-id');
 var userId = document.getElementById('user');
-// var arrBtn = [];
 var container = document.getElementById('transaction-history-container');
-// var isTransactionSuccessExist = false;
 const render_time_out = 1000;
 const call_time_out = 1000;
 
+function convertDate(tanggal) {
+    let dd = tanggal.getDate();
+    let mm = tanggal.getMonth() + 1;
+    let yyyy = tanggal.getFullYear();
+
+    let hh = tanggal.getHours();
+    let ii = tanggal.getMinutes();
+    let ss = tanggal.getSeconds();
+
+    return `${yyyy}-${mm}-${dd} ${hh}:${ii}:${ss}`;
+}
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 function setIsRatedWS(isRate, id) {
-    var xhr2 = new XMLHttpRequest();
+    let xhr2 = new XMLHttpRequest();
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState == 4 && xhr2.status == 200) {
             location.reload();
         }
     }
     xhr2.open('POST', 'http://34.227.112.253:3000/rate', true);
-    var param = {
+    let param = {
         idTransaksi: id,
         val: isRate
     };
@@ -28,7 +43,7 @@ function setIsRatedWS(isRate, id) {
 }
 
 function deleteReview(id) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             setIsRatedWS(0, id);
@@ -90,29 +105,19 @@ function createEditDeleteReview(transactionDetail, transaction) {
 function countDown(parent, fromTime) {
     const transactionTimer = document.createElement('div');
     transactionTimer.setAttribute('class', 'transaction-schedule');
-    // transactionDetail.appendChild(transactionTimer);
-
-                
-                // console.log(min, dtk);
                 
     const timer = document.createElement('span');
     timer.textContent = 'Time Left(s): ';
     transactionTimer.appendChild(timer);
-                
     
-    // var dateLine = new Date(fromTime);
-    // dateLine.setMinutes(dateLine.getMinutes() + 2);
-    var now = new Date();
-    var diff = new Date(fromTime - now);
+    let now = new Date();
+    let diff = new Date(fromTime - now);
     let min = String(Math.max(Math.floor(diff/(1000*60)), 0));
     let dtk = String(Math.max(Math.floor((diff % (1000*60))/(1000)), 0));
     
     const time = document.createElement('span');
-    if (parseInt(dtk,10) % 2) {
-        time.style.color = "#ff4d4d";
-    } else {
-        time.style.color = "#cc0000";
-    }
+
+    time.style.color = `rgb(${255-(parseInt(dtk,10) + parseInt(min,10)*60)*2},0,0)`;
     time.innerHTML = `${min.padStart(2,"0")}:${dtk.padStart(2,"0")}`;
     // parent.innerHTML 
     transactionTimer.appendChild(time);
@@ -123,7 +128,7 @@ function countDown(parent, fromTime) {
 }
 
 function generateTransactionWrapper(transaction, parent) {
-    var xhr2 = new XMLHttpRequest();
+    let xhr2 = new XMLHttpRequest();
     xhr2.onreadystatechange = function () {
         if (xhr2.status === 200 && xhr2.readyState === 4) {
             const response = JSON.parse(this.response);
@@ -163,7 +168,6 @@ function generateTransactionWrapper(transaction, parent) {
             transactionTitle.textContent = movieDetail.title;
             transactionDetail.appendChild(transactionTitle);
             
-            
             // <div class="transaction-schedule">
             const transactionSchedule = document.createElement('div');
             transactionSchedule.setAttribute('class', 'transaction-schedule');
@@ -195,17 +199,26 @@ function generateTransactionWrapper(transaction, parent) {
             } else if (transaction.status === "pending") {
                 transactionStatus.style.color = "blue";
 
+                // <div class="transaction-schedule">
+                const virtualAccount = document.createElement('div');
+                virtualAccount.setAttribute('class', 'transaction-schedule');
+                transactionDetail.appendChild(virtualAccount);
+                
+                // <span>Schedule: </span>
+                const VAText = document.createElement('span');
+                VAText.textContent = 'Virtual Account: ';
+                virtualAccount.appendChild(VAText);
+                
+                virtualAccount.innerHTML += transaction.virtualAccount;
+
                 const transactionTimer = document.createElement('div');
-                transactionTimer.setAttribute('class', 'transaction-schedule');
                 transactionDetail.appendChild(transactionTimer);
                 var dateLine = new Date(transaction.creationTime);
                 dateLine.setMinutes(dateLine.getMinutes() + 2);
                 setTimeout(() => {countDown(transactionTimer, dateLine)},1000);
             }
-            // CEK WAKTU
             const jamMovie = new Date(movieSchedule.dateTime);
             if (jamMovie < Date.now() && transaction.status === "success") {
-                // createAddReview(transactionDetail, transaction);
                 if (transaction.isRated == 1) {
                     haveBeenSubmitted(transactionDetail);
                     createEditDeleteReview(transactionDetail, transaction);
@@ -221,9 +234,8 @@ function generateTransactionWrapper(transaction, parent) {
 }
 
 function transactionHistory(successTransaction) {
-    // console.log("history");
     
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
             const dataTransaksi =JSON.parse(this.response);
@@ -232,10 +244,7 @@ function transactionHistory(successTransaction) {
                 if (successTransaction.filter(
                     trans => 
                     trans.id === transaction.idTransaksi).length == 0) {                   
-                        // console.log("new");
                         
-                        
-                    // container.innerHTML = "";
                     successTransaction.push({
                         id: transaction.idTransaksi,
                         status: transaction.status
@@ -243,24 +252,15 @@ function transactionHistory(successTransaction) {
                     let tempDiv = document.createElement('div');
                     container.appendChild(tempDiv);
                     generateTransactionWrapper(transaction, tempDiv);
-                    // isTransactionSuccessExist = true;
                 } else if (successTransaction.filter(
                     trans => 
                     trans.id === transaction.idTransaksi &&
                     trans.status === "pending").length > 0 && transaction.status != "pending") {
-                        // console.log("edit");
                         
                     let tempDiv = document.getElementById(`trans-wrap-${transaction.idTransaksi}`);
                     generateTransactionWrapper(transaction, tempDiv);
                 }
             }
-            // dataTransaksi.transaction.forEach((transaction) => {
-            //     if (transaction.status == 'success') {
-            //         container.innerHTML = "";
-            //         cekDBMovie(transaction);
-            //         isTransactionSuccessExist = true;
-            //     }
-            // })
 
             if (dataTransaksi.transaction.length) {
                 document.getElementById('loading').style.display = "none";
@@ -275,24 +275,65 @@ function transactionHistory(successTransaction) {
 }
 
 async function cekPayStatus() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
             const dataTransaksi = JSON.parse(this.response);
-            const transaction = dataTransaksi.transaction;
+            const data = dataTransaksi.transaction;
+            data.forEach((transaction) => {
+                if (transaction.status == 'pending') {
+                    let dateLine = new Date(transaction.creationTime);
+                    dateLine.setMinutes(dateLine.getMinutes() + 2);
 
-            if (transaction.status == 'pending') {
-                var dateLine = new Date(transaction.creationTime);
-                dateLine.setMinutes(dateLine.getMinutes() + 2);
-                var now = new Date();
-                if (dateLine < now) {
-                    // kirim edit ke ws
-                } else {
-                    // panggil ws-bank
-                    // kalau udah bayar maka editTransaction dipanggil
-                    // kalau belum yaudah
+                    let xhr2 = new XMLHttpRequest();
+                    
+                    let soapRequest = 
+                    '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.test.org/">'
+                    + '<soapenv:Header/>'
+                    + '<soapenv:Body>'
+                        + '<ws:checkTransactionBetween>'
+                            + '<linkedNumber>' + transaction.virtualAccount + '</linkedNumber>'
+                            + '<amount>45000</amount>'
+                            + '<startDate>' + transaction.creationTime + '</startDate>'
+                            + '<endDate>' + convertDate(dateLine) + '</endDate>'
+                        + '</ws:checkTransactionBetween>'
+                    + '</soapenv:Body>'
+                    + '</soapenv:Envelope>';
+    
+                    xhr2.open('POST', dir + '/api/wsdl', true);
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.status === 200 && xhr2.readyState === 4) {
+
+                            response = JSON.parse(xhr2.response);
+                            let waktu = response.return.Body.checkTransactionBetweenResponse.return;
+                            if (isEmpty(waktu)) {
+                                let now = new Date();
+                                if (dateLine < now) {
+                                    let xhr3 = new XMLHttpRequest();
+                                    xhr3.open('POST', 'http://34.227.112.253:3000/edit', true);
+                                    let param1 = {
+                                        idTransaksi: transaction.idTransaksi,
+                                        waktuBayar: convertDate(now)
+                                    };
+                                    xhr3.setRequestHeader("Content-Type", "application/json");
+                                    xhr3.send(JSON.stringify(param1));
+                                } 
+                            } else {
+                                let xhr4 = new XMLHttpRequest();
+                                xhr4.open('POST', 'http://34.227.112.253:3000/edit', true);
+                                let param2 = {
+                                    idTransaksi: transaction.idTransaksi,
+                                    waktuBayar: waktu
+                                };
+                                xhr4.setRequestHeader("Content-Type", "application/json");
+                                xhr4.send(JSON.stringify(param2));
+                            }
+                        }
+                    }
+                    xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr2.send("envelope=" + soapRequest);
                 }
-            }
+            })
         }
     }
     xhr.open('GET', 'http://34.227.112.253:3000/get?idUser=' + userId.value);
@@ -303,8 +344,7 @@ async function cekPayStatus() {
 }
 
 window.onload = async function () {
-    var successTransaction = []; 
-    // successTransaction.p
+    let successTransaction = []; 
     cekPayStatus();
     transactionHistory(successTransaction);
 }
