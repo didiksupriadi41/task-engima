@@ -13,6 +13,7 @@ class Login extends \core\Controller
 
     public function index()
     {
+        error_log("login");
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->model('LoginModel')->login()) {
                 $this->redirect->to(BASEURL);

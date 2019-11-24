@@ -421,6 +421,7 @@ body {
   padding-left: 24px;
   margin-top: auto;
   margin-bottom: auto;
+  font-size: 1.2em;
 }
 
 .transaction-detail a{
@@ -428,15 +429,15 @@ body {
 }
 
 .transaction-title {
-  font-size: 16px;
+  font-size: 1.3em;
 }
 
 .transaction-schedule {
-  font-size: 12px;
+  font-size: 1em;
 }
 
 .transaction-text {
-  font-size: 10px;
+  font-size: 0.75em;
   color: #b5b5b5
 }
 
@@ -452,12 +453,12 @@ body {
 .btn-wrapper {
   position: absolute;
   right: 0;
-  margin-right: .75rem;
 }
 
 .btn-transaction {
-  font-size: 10px;
-  padding: 4px 12px;
+  font-size: 0.75em;
+  margin: 0 .5em;
+  /* padding: 4px 12px; */
 }
 
 .btn-delete-review {
