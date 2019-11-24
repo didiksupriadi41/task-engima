@@ -7,8 +7,8 @@ var dir = loc.slice(0, loc.lastIndexOf("public") + 1).join("/");
 var userId = document.getElementById('user');
 // var arrBtn = [];
 var container = document.getElementById('transaction-history-container');
-var isTransactionSuccessExist = false;
-const render_time_out = 15000;
+// var isTransactionSuccessExist = false;
+const render_time_out = 1000;
 const call_time_out = 1000;
 
 function setIsRatedWS(isRate, id) {
@@ -87,7 +87,42 @@ function createEditDeleteReview(transactionDetail, transaction) {
     btnWrapper2.appendChild(editLink);
 }
 
-function cekDBMovie(transaction) {
+function countDown(parent, fromTime) {
+    const transactionTimer = document.createElement('div');
+    transactionTimer.setAttribute('class', 'transaction-schedule');
+    // transactionDetail.appendChild(transactionTimer);
+
+                
+                // console.log(min, dtk);
+                
+    const timer = document.createElement('span');
+    timer.textContent = 'Time Left(s): ';
+    transactionTimer.appendChild(timer);
+                
+    
+    // var dateLine = new Date(fromTime);
+    // dateLine.setMinutes(dateLine.getMinutes() + 2);
+    var now = new Date();
+    var diff = new Date(fromTime - now);
+    let min = String(Math.max(Math.floor(diff/(1000*60)), 0));
+    let dtk = String(Math.max(Math.floor((diff % (1000*60))/(1000)), 0));
+    
+    const time = document.createElement('span');
+    if (parseInt(dtk,10) % 2) {
+        time.style.color = "#ff4d4d";
+    } else {
+        time.style.color = "#cc0000";
+    }
+    time.innerHTML = `${min.padStart(2,"0")}:${dtk.padStart(2,"0")}`;
+    // parent.innerHTML 
+    transactionTimer.appendChild(time);
+    parent.replaceWith(transactionTimer);
+    if (min != "0" || dtk != "0"){
+        setTimeout(() => {countDown(transactionTimer, fromTime)},1000);
+    }   
+}
+
+function generateTransactionWrapper(transaction, parent) {
     var xhr2 = new XMLHttpRequest();
     xhr2.onreadystatechange = function () {
         if (xhr2.status === 200 && xhr2.readyState === 4) {
@@ -98,51 +133,78 @@ function cekDBMovie(transaction) {
             // <div class="transaction-wrapper">
             const transactionWrapper = document.createElement('div');
             transactionWrapper.setAttribute('class', 'transaction-wrapper');
-            container.appendChild(transactionWrapper);
-
+            transactionWrapper.setAttribute('id', `trans-wrap-${transaction.idTransaksi}`)
+            // container.appendChild(transactionWrapper);
+            
             // <div class="row">
             const row = document.createElement('div');
             row.setAttribute('class', 'row');
             transactionWrapper.appendChild(row);
-
+            
             // <div class="col-1 transaction-poster-wrapper">
             const posterWrapper = document.createElement('div');
             posterWrapper.setAttribute('class', 'col-1 transaction-poster-wrapper');
             row.appendChild(posterWrapper);
-
+            
             // img src = ...
             const moviePoster = document.createElement('img');
             moviePoster.src = movieDetail.poster ? movieDetail.poster : `${dir}/img/no_img_placeholder.jpg`;
             moviePoster.setAttribute('class', 'transaction-poster');
             posterWrapper.appendChild(moviePoster);
-
+            
             // <div class="col-9 transaction-detail px-auto">
             const transactionDetail = document.createElement('div');
             transactionDetail.setAttribute('class', 'col-9 transaction-detail px-auto');
             row.appendChild(transactionDetail);
-
+            
             // <div class="transaction-title">
             const transactionTitle = document.createElement('div');
             transactionTitle.setAttribute('class', 'transaction-title');
             transactionTitle.textContent = movieDetail.title;
             transactionDetail.appendChild(transactionTitle);
-
-
+            
+            
             // <div class="transaction-schedule">
             const transactionSchedule = document.createElement('div');
             transactionSchedule.setAttribute('class', 'transaction-schedule');
             transactionDetail.appendChild(transactionSchedule);
-
+            
             // <span>Schedule: </span>
             const schedule = document.createElement('span');
             schedule.textContent = 'Schedule: ';
             transactionSchedule.appendChild(schedule);
-
+            
             transactionSchedule.innerHTML += movieSchedule.dateTime;
+            
+            // <div class="transaction-schedule">
+            const transactionStatus = document.createElement('div');
+            transactionStatus.setAttribute('class', 'transaction-schedule');
+            transactionDetail.appendChild(transactionStatus);
+            
+            // <span>Schedule: </span>
+            const status = document.createElement('span');
+            status.textContent = 'Status: ';
+            transactionStatus.appendChild(status);
+            
+            transactionStatus.innerHTML += transaction.status;
+            
+            if (transaction.status === "success") {
+                transactionStatus.style.color = "green";
+            } else if (transaction.status === "cancelled") {
+                transactionStatus.style.color = "red";
+            } else if (transaction.status === "pending") {
+                transactionStatus.style.color = "blue";
 
+                const transactionTimer = document.createElement('div');
+                transactionTimer.setAttribute('class', 'transaction-schedule');
+                transactionDetail.appendChild(transactionTimer);
+                var dateLine = new Date(transaction.creationTime);
+                dateLine.setMinutes(dateLine.getMinutes() + 2);
+                setTimeout(() => {countDown(transactionTimer, dateLine)},1000);
+            }
             // CEK WAKTU
             const jamMovie = new Date(movieSchedule.dateTime);
-            if (jamMovie < Date.now()) {
+            if (jamMovie < Date.now() && transaction.status === "success") {
                 // createAddReview(transactionDetail, transaction);
                 if (transaction.isRated == 1) {
                     haveBeenSubmitted(transactionDetail);
@@ -151,31 +213,61 @@ function cekDBMovie(transaction) {
                     createAddReview(transactionDetail, transaction);
                 }
             }
+            parent.replaceWith(transactionWrapper);
         }
     }
     xhr2.open('GET', 'api/getTransaction?movie-id=' + transaction.idMovie + '&schedule-id=' + transaction.idSchedule);
     xhr2.send();
 }
 
-function transactionHistory() {
+function transactionHistory(successTransaction) {
+    // console.log("history");
+    
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
-            const dataTransaksi = JSON.parse(this.response);
-            dataTransaksi.transaction.forEach((transaction) => {
-                if (transaction.status == 'success') {
-                    container.innerHTML = "";
-                    cekDBMovie(transaction);
-                    isTransactionSuccessExist = true;
+            const dataTransaksi =JSON.parse(this.response);
+            for (let index = 0; index < dataTransaksi.transaction.length; index++) {
+                const transaction = dataTransaksi.transaction[index];
+                if (successTransaction.filter(
+                    trans => 
+                    trans.id === transaction.idTransaksi).length == 0) {                   
+                        // console.log("new");
+                        
+                        
+                    // container.innerHTML = "";
+                    successTransaction.push({
+                        id: transaction.idTransaksi,
+                        status: transaction.status
+                    });
+                    let tempDiv = document.createElement('div');
+                    container.appendChild(tempDiv);
+                    generateTransactionWrapper(transaction, tempDiv);
+                    // isTransactionSuccessExist = true;
+                } else if (successTransaction.filter(
+                    trans => 
+                    trans.id === transaction.idTransaksi &&
+                    trans.status === "pending").length > 0 && transaction.status != "pending") {
+                        // console.log("edit");
+                        
+                    let tempDiv = document.getElementById(`trans-wrap-${transaction.idTransaksi}`);
+                    generateTransactionWrapper(transaction, tempDiv);
                 }
-            })
+            }
+            // dataTransaksi.transaction.forEach((transaction) => {
+            //     if (transaction.status == 'success') {
+            //         container.innerHTML = "";
+            //         cekDBMovie(transaction);
+            //         isTransactionSuccessExist = true;
+            //     }
+            // })
 
-            if (isTransactionSuccessExist) {
+            if (dataTransaksi.transaction.length) {
                 document.getElementById('loading').style.display = "none";
             } else {
                 document.getElementById('loading').textContent = "No Transaction Found";
             }
-            setTimeout(transactionHistory, render_time_out);
+            setTimeout(() => {transactionHistory(successTransaction)}, render_time_out);
         }
     }
     xhr.open('GET', 'http://34.227.112.253:3000/get?idUser=' + userId.value);
@@ -211,6 +303,8 @@ async function cekPayStatus() {
 }
 
 window.onload = async function () {
+    var successTransaction = []; 
+    // successTransaction.p
     cekPayStatus();
-    transactionHistory();
+    transactionHistory(successTransaction);
 }

@@ -57,10 +57,10 @@
     <div class="buy-modal-wrapper" id="buy-modal-wrapper-id">
         <div class="buy-modal">
             <div class="payment-title" id="payment-title-id">
-                Payment Success!
+                Booking Success!
             </div>
             <div class="payment-desc" id="payment-desc-id">
-                Thank you for purchasing! You can view your purchase now.
+                Your booking is pending.<br>Please transfer Rp 45.000 in 2 minute to 
             </div>
             <div class="goto-transaction nav-item" id="goto-transaction-id">
                 <a href="<?php echo BASEURL; ?>transaction">
