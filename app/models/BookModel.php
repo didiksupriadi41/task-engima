@@ -11,29 +11,13 @@ class BookModel
         $this->auth = new \core\Auth;
     }
 
-    // public function getAllBook()
-    // {
-    //     $idUser = $this->auth->getUserId();
-    //     $query = "SELECT idBook, poster, title, dateTime, isRate, Schedule.idMovie
-    //     FROM (Book NATURAL JOIN Schedule ) NATURAL JOIN Movie
-    //     WHERE Book.idUser = :idUser
-    //     ORDER BY dateTime DESC";
-    //     $this->db->query($query);
-    //     $this->db->bind('idUser', (int) $idUser);
-    //     $data = $this->db->resultSet();
-    //     return $data;
-    // }
-
     public function getBookById()
     {
-        // $idSchedule = $_GET["schedule-id"];
         $idBooking = $_GET["book-id"];
         $query = "SELECT * 
         FROM Review 
         WHERE idBook = :idBook";
-        // ORDER BY dateTime DESC";
         $this->db->query($query);
-        // $this->db->bind('idSchedule', $idSchedule);
         $this->db->bind('idBook', $idBooking);
         $data = $this->db->resultSet();
 
@@ -91,20 +75,52 @@ class BookModel
         }
     }
 
-    public function reduceSeatLeft($schedule_id)
+    public function getSeatLeft($schedule_id_arr)
     {
-        $query = "UPDATE Schedule 
-        SET seatsLeft = seatsLeft - 1 
-        WHERE idSchedule = :schedule_id";
+        $url = 'http://34.227.112.253:3000/seat?idSchedule=' . $schedule_id_arr;
+        // for ($i=0; $i < count($schedule_id_arr); $i++) {
+        //     $url += "idSchedule=" . $schedule_id_arr[$i];
+        // }
+        // $data = array('idTransaksi' => $idTransaksi, 'val' => $isRate);
 
-        $this->db->query($query);
-        $this->db->bind('schedule_id', $schedule_id);
-
-        try {
-            $this->db->execute();
-            return true;
-        } catch (\Throwable $th) {
-            return false;
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+            'http' => array(
+                // 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'GET'
+                // 'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === false) {
+            error_log(print_r($result, true));
         }
+
+        $response = json_decode($result, true);
+
+        $seats = $response["seats"];
+
+        $arr = array_filter($seats, function ($var) {
+            return ($var > 0 && $var <=30);
+        });
+        $usedSeat = count($arr);
+
+        return (30-$usedSeat);
+
+        // $query = "UPDATE Schedule 
+        // SET seatsLeft = :seatLeft 
+        // WHERE idSchedule = :schedule_id";
+        
+        // $this->db->query($query);
+        // $this->db->bind('seatLeft', 30 - $usedSeat);
+        // $this->db->bind('schedule_id', $schedule_id);
+        
+        // try {
+        //     $this->db->execute();
+        //     return true;
+        // } catch (\Throwable $th) {
+        //         return false;
+        // }
     }
 }

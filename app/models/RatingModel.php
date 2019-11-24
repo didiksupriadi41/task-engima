@@ -4,7 +4,7 @@ class RatingModel
 {
     private $db;
     private $auth;
-  
+
     public function __construct()
     {
         $this->db = new \core\Database;

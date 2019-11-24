@@ -16,13 +16,14 @@ class Api extends \core\Controller
         echo $response;
     }
     
-    public function reduceSeat()
-    {
-        $data = new \stdClass();
-        $data->status = 200;
-        $data->result = $this->model('BookModel')->reduceSeatLeft($_POST['schedule-id']);
-        echo json_encode($data);
-    }
+    // public function updateSeatLeft()
+    // {
+    //     $data = new \stdClass();
+    //     $data->status = 200;
+    //     $data->result = $this->model('BookModel')->getSeatLeft($_POST['schedule-id']);
+    //     echo json_encode($data);
+    //     // echo var_dump($data->result);
+    // }
 
     public function search()
     {
