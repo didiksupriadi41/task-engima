@@ -70,3 +70,10 @@ Perubahan halaman dilakukan secara realtime
 | 3  | Halaman Buy | 13517012 |
 | 4  | Halaman Home | 13517012 |
 | 5  | Halaman Search | 13517012 |
+
+### Pembagian tugas setiap anggota
+|**No**|**Tugas**|**NIM**|
+|-|-|-|
+|1|Code reviewer (PIC)|[13517012](#johanes)|
+|2|CI/CD|[13517012](#johanes)|
+|3|Eksplorasi dan *setup* mesin deployment|[13517012](#johanes)|
