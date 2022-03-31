@@ -1,5 +1,7 @@
 {
     "name": "johanes/engima",
+    "description" : "Engima is a simple cinema web application. This web application is implemented using task-ws-transaction and task-ws-bank web services, and task-bankpro application.",
+    "license" : "Apache-2.0",
     "require": {
         "squizlabs/php_codesniffer": "^3.5"
     },
